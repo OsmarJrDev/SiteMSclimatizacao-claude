@@ -29,6 +29,10 @@ da região, nunca ícone de floco de neve, sol genérico ou gradiente.
   Facebook, não usadas como imagem real no site).
 - Depoimentos, números e credenciais reais (arrays vazios até aprovação).
 - Domínio definitivo (astro.config.mjs e wrangler.jsonc usam placeholder).
+- `public/favicon.ico`: regenerado com a marca "M" (era um PNG disfarçado
+  de `.ico`, prática comum e aceita pelos navegadores atuais, mas não é um
+  contêiner ICO "de verdade"; se algum dia isso importar, gerar um `.ico`
+  multi-resolução de verdade com uma ferramenta dedicada).
 
 ## Fonte pesquisada
 Entidade RAL com competência no distrito de Faro (inclui Loulé/Quarteira):

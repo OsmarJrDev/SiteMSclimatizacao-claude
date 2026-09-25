@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="DEMO Clínica Exemplo">
-  <rect width="48" height="48" rx="10" fill="#1F4E5F" />
-  <circle cx="24" cy="24" r="16" fill="#8FB3A0" />
-  <text x="24" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="700" fill="#1F4E5F" text-anchor="middle">D</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="MS Climatização">
+  <rect width="48" height="48" rx="10" fill="#123C44" />
+  <circle cx="24" cy="24" r="16" fill="#CFE3DC" />
+  <text x="24" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="700" fill="#123C44" text-anchor="middle">M</text>
 </svg>
