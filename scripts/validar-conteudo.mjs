@@ -102,8 +102,18 @@ function dividirObjetosDoArray(arrayTexto) {
 }
 
 function validarProvaReal(siteTsTexto) {
-  const campos = ['depoimentos', 'numeros', 'credenciais', 'premios'];
-  for (const campo of campos) {
+  // depoimentos/numeros/credenciais/premios: sempre exigem as duas provas.
+  // Sem dado real, o array fica vazio (a seção some sozinha do HTML).
+  const camposEstritos = ['depoimentos', 'numeros', 'credenciais', 'premios'];
+  // estatisticas/comparativo: tambem sao prova real, MAS podem conter itens
+  // ainda pendentes, escritos como "[PREENCHER: ...]" em vez de um numero ou
+  // diferencial inventado (FaixaEstatisticas.astro e TabelaComparativa.astro
+  // mostram o placeholder de forma visivel, nao escondem a secao). Por isso,
+  // so exigimos "fonte"/"aprovadoPeloCliente" quando o item NAO for um
+  // placeholder.
+  const camposComPlaceholder = ['estatisticas', 'comparativo'];
+
+  for (const campo of camposEstritos) {
     const arrayTexto = extrairArrayLiteral(siteTsTexto, campo);
     if (!arrayTexto) continue;
     const objetos = dividirObjetosDoArray(arrayTexto);
@@ -115,6 +125,25 @@ function validarProvaReal(siteTsTexto) {
           `src/data/site.ts: item ${indice + 1} de "${campo}" sem "fonte" e/ou ` +
             `"aprovadoPeloCliente: true". Todo depoimento, número, credencial ou ` +
             `prêmio precisa das duas provas (CLAUDE.md seção 7).`
+        );
+      }
+    });
+  }
+
+  for (const campo of camposComPlaceholder) {
+    const arrayTexto = extrairArrayLiteral(siteTsTexto, campo);
+    if (!arrayTexto) continue;
+    const objetos = dividirObjetosDoArray(arrayTexto);
+    objetos.forEach((objeto, indice) => {
+      if (objeto.includes('[PREENCHER')) return;
+      const temFonte = /\bfonte\s*:/.test(objeto);
+      const temAprovacao = /\baprovadoPeloCliente\s*:\s*true\b/.test(objeto);
+      if (!temFonte || !temAprovacao) {
+        erros.push(
+          `src/data/site.ts: item ${indice + 1} de "${campo}" sem "fonte" e/ou ` +
+            `"aprovadoPeloCliente: true" (e sem "[PREENCHER" para marcar como pendente). ` +
+            `Estatística ou linha de comparativo com dado real precisa das duas provas ` +
+            `(CLAUDE.md seção 7); sem dado real, use "[PREENCHER: descrição]" em vez de inventar.`
         );
       }
     });

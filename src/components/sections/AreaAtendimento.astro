@@ -1,0 +1,30 @@
+---
+// Lista de bairros/cidades/concelhos atendidos, como tags compactas. Boa
+// para SEO local e para o visitante ver a cobertura real sem ambiguidade.
+// So aparece se site.areasAtendimento tiver pelo menos um item confirmado.
+import { site } from '../../data/site';
+
+interface Props {
+  titulo?: string;
+}
+
+const { titulo = 'Área de atendimento' } = Astro.props;
+const areas = site.areasAtendimento ?? [];
+---
+
+{
+  areas.length > 0 && (
+    <section class="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="area-atendimento-titulo">
+      <h2 id="area-atendimento-titulo" class="font-titulo text-3xl font-semibold text-base md:text-4xl">
+        {titulo}
+      </h2>
+      <ul class="mt-8 flex flex-wrap gap-3">
+        {areas.map((area) => (
+          <li class="rounded-full border border-linha bg-white/60 px-4 py-2 text-sm font-semibold text-base">
+            {area}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

@@ -1,0 +1,42 @@
+---
+// Faixa de LARGURA TOTAL com estatisticas/prova em destaque tipografico
+// grande, separada do Hero (quebra o ritmo vertical das secoes com container
+// max-w-6xl). So aparece se site.estatisticas tiver pelo menos um item.
+// Item sem numero confirmado usa "numero: '[PREENCHER: ...]'" (site.ts):
+// o placeholder aparece de forma visivel, nunca escondido e nunca inventado.
+import { site } from '../../data/site';
+
+interface Props {
+  titulo?: string;
+}
+
+const { titulo } = Astro.props;
+const itens = site.estatisticas ?? [];
+---
+
+{
+  itens.length > 0 && (
+    <section class="border-y border-linha bg-base text-superficie" aria-label={titulo ?? 'Números em destaque'}>
+      <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
+        <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {itens.map((item) => {
+            const pendente = item.numero.startsWith('[PREENCHER');
+            return (
+              <li>
+                <p
+                  class:list={[
+                    'font-titulo font-semibold leading-tight',
+                    pendente ? 'text-lg text-destaque' : 'text-4xl text-superficie md:text-5xl',
+                  ]}
+                >
+                  {item.numero}
+                </p>
+                <p class="mt-2 text-sm text-superficie/70">{item.legenda}</p>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </section>
+  )
+}

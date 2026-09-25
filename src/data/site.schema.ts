@@ -72,6 +72,43 @@ export interface Diferencial {
   descricao: string;
 }
 
+/**
+ * Item da faixa de estatisticas/prova em destaque tipografico grande
+ * (FaixaEstatisticas.astro), separada do Hero. E prova real quando o numero
+ * vem de um fato confirmado: precisa de "fonte" e "aprovadoPeloCliente: true"
+ * (scripts/validar-conteudo.mjs cobra isso). Enquanto o numero nao existir,
+ * use "numero: '[PREENCHER: descricao]'" (sem fonte/aprovacao) em vez de
+ * inventar um valor: o componente mostra o placeholder de forma visivel, sem
+ * esconder a secao.
+ */
+export interface EstatisticaDestaque {
+  numero: string;
+  legenda: string;
+  fonte?: string;
+  aprovadoPeloCliente?: true;
+}
+
+/**
+ * Linha da tabela comparativa "nos vs. outras empresas" (TabelaComparativa.astro).
+ * E prova real: precisa de "fonte" e "aprovadoPeloCliente: true" quando "nos"
+ * e "outras" descrevem um fato confirmado. So inclua linhas com diferencial
+ * de verdade (nunca um diferencial generico so para preencher a tabela).
+ */
+export interface ComparativoLinha {
+  diferencial: string;
+  nos: boolean;
+  outras: boolean;
+  notaNos?: string;
+  notaOutras?: string;
+  fonte?: string;
+  aprovadoPeloCliente?: true;
+}
+
+/** Marca atendida/trabalhada (MarcasAtendidas.astro). So entra com confirmacao do cliente. */
+export interface MarcaAtendida {
+  nome: string;
+}
+
 export interface PerguntaFaq {
   pergunta: string;
   resposta: string;
@@ -183,6 +220,14 @@ export interface SiteData {
   numeros: NumeroDestaque[];
   credenciais: Credencial[];
   premios: Premio[];
+  /** Faixa de estatisticas/prova em destaque tipografico grande (opcional, ver EstatisticaDestaque). */
+  estatisticas?: EstatisticaDestaque[];
+  /** Bairros/cidades/concelhos atendidos, para SEO local e cobertura clara (AreaAtendimento.astro). */
+  areasAtendimento?: string[];
+  /** Linhas do comparativo "nos vs. outras empresas", so com diferenciais reais (ComparativoLinha). */
+  comparativo?: ComparativoLinha[];
+  /** Marcas atendidas/trabalhadas confirmadas pelo cliente (MarcasAtendidas.astro). */
+  marcasAtendidas?: MarcaAtendida[];
   registrosProfissionaisBR?: RegistroProfissionalBR[];
   registrosProfissionaisPT?: RegistroProfissionalPT[];
   legalBR?: DadosLegaisBR;

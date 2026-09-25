@@ -102,6 +102,21 @@ export const site: SiteData = {
 
   premios: [],
 
+  // Nenhum numero real (anos de experiencia, quantidade de instalacoes, etc.)
+  // foi confirmado pelo cliente ainda. Em vez de esconder a secao ou inventar
+  // um numero, os itens ficam como "[PREENCHER: ...]" visivel: e uma pendencia
+  // real, nao um dado. Ver FaixaEstatisticas.astro (_base/CLAUDE.md secao 6).
+  estatisticas: [
+    { numero: '[PREENCHER: anos de experiência]', legenda: 'anos de experiência' },
+    { numero: '[PREENCHER: quantidade de instalações]', legenda: 'instalações realizadas' },
+    { numero: '[PREENCHER: prazo de garantia oferecido]', legenda: 'de garantia' },
+  ],
+
+  // Zona de atuacao confirmada pelo cliente: Algarve, com atuacao especifica
+  // em Quarteira, Loulé e Faro e concelhos vizinhos. Usado por
+  // AreaAtendimento.astro (bom para SEO local e para deixar a cobertura clara).
+  areasAtendimento: ['Quarteira', 'Loulé', 'Faro', 'Concelhos vizinhos do Algarve'],
+
   // Sem registo profissional PT confirmado para exibir. A certificação
   // técnica para manuseio de gases fluorados (exigência comum a
   // instaladores de climatização na UE) é uma pendência de verificação,

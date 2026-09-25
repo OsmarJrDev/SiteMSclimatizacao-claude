@@ -1,10 +1,31 @@
 ---
+// Composição estrutural desta página (revisada após crítica do cliente: a
+// versão anterior tinha o mesmo esqueleto de seções — Hero, Serviços, Sobre,
+// Diferenciais, FAQ, Contato, nessa ordem — de um site feito por outra
+// ferramenta de IA para o mesmo negócio. Ver CLAUDE.md seção 6, "Variação
+// estrutural"). A paleta e a tipografia "Sombra e cal" continuam as mesmas,
+// já aprovadas; o que muda aqui é o conjunto e a ordem das seções, e o
+// layout de cada uma:
+// 1. Hero (editorial, com a grelha-assinatura) — igual, identidade aprovada.
+// 2. Área de atendimento — seção nova, logo após o Hero (confiança + SEO local).
+// 3. Serviços em acordeão numerado — troca o grid de cartões por outra estrutura.
+// 4. Faixa de estatísticas de largura total — quebra o ritmo vertical entre
+//    Serviços e Sobre; os números ainda não confirmados aparecem como
+//    "[PREENCHER" visível, nunca inventados.
+// 5. Sobre — mesma variante e texto aprovados.
+// 6. Diferenciais — mesma variante, mas agora depois de Sobre, não logo após Serviços.
+// 7. FAQ em duas colunas (não em acordeão, para não repetir a interação de
+//    abrir/fechar que já aparece nos Serviços).
+// 8. Contato — igual.
+// Depoimentos não entra: site.depoimentos ainda está vazio (nenhum depoimento
+// real aprovado), e a seção já se esconde sozinha nesse caso.
 import Base from '../layouts/Base.astro';
 import Hero from '../components/sections/Hero.astro';
+import AreaAtendimento from '../components/sections/AreaAtendimento.astro';
 import Servicos from '../components/sections/Servicos.astro';
+import FaixaEstatisticas from '../components/sections/FaixaEstatisticas.astro';
 import Sobre from '../components/sections/Sobre.astro';
 import Diferenciais from '../components/sections/Diferenciais.astro';
-import Depoimentos from '../components/sections/Depoimentos.astro';
 import Faq from '../components/sections/Faq.astro';
 import Contato from '../components/sections/Contato.astro';
 ---
@@ -15,14 +36,15 @@ import Contato from '../components/sections/Contato.astro';
     chamada="Conforto térmico para a casa e para o negócio"
     subtitulo="Instalação e manutenção de ar condicionado no Algarve, com atendimento direto do técnico responsável e orçamento pelo WhatsApp."
   />
-  <Servicos variante="grade" />
+  <AreaAtendimento />
+  <Servicos variante="numerada" />
+  <FaixaEstatisticas />
   <Sobre
     variante="assimetrico"
     titulo="Sobre a MS Climatização"
     texto="A MS Climatização atua na instalação e manutenção de ar condicionado no Algarve, com atuação específica em Quarteira. Os trabalhos são acompanhados por Dione Ademir, responsável técnico, com recurso a ferramentas profissionais Berner. A empresa também partilha, no Instagram (@msclimatizacaopt), esclarecimentos sobre manutenção e mitos ligados à saúde e ao ar condicionado."
   />
   <Diferenciais variante="linha" />
-  <Depoimentos variante="grade" />
-  <Faq variante="acordeao" />
+  <Faq variante="duas-colunas" />
   <Contato variante="mapa-lado" />
 </Base>
