@@ -15,6 +15,14 @@ export default defineConfig({
 
   integrations: [sitemap()],
 
+  // Imagens responsivas nativas do Astro: gera srcset/sizes automaticamente
+  // e aplica o CSS de redimensionamento, para toda <Image />/<Picture /> que
+  // usar a prop layout. Ligado por padrao em todo template (25/09/2026).
+  image: {
+    responsiveStyles: true,
+    layout: 'constrained'
+  },
+
   // Fonts API do Astro: os arquivos de fonte sao baixados e auto-hospedados
   // no build. Nunca usar <link> para fonts.googleapis.com.
   // Par escolhido para a direção "Sombra e cal" (docs/nichos.md): Space
