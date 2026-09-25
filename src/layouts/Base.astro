@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+import { site } from '../data/site';
+import Seo from '../components/seo/Seo.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import BarraMobile from '../components/sections/BarraMobile.astro';
+import RodapeBR from '../components/sections/RodapeBR.astro';
+import RodapePT from '../components/sections/RodapePT.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** true nas paginas de erro/legal, quando o rodape ainda deve aparecer mas sem indexar. */
+  noindex?: boolean;
+}
+
+const { title, description, noindex = false } = Astro.props;
+const lang = site.mercado === 'PT' ? 'pt-PT' : 'pt-BR';
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <Seo title={title} description={description} />
+    <JsonLd />
+
+    <!-- Fonts API do Astro: arquivos auto-hospedados, gerados no build. -->
+    <Font cssVariable="--font-titulo" preload={[{ weight: 600 }]} />
+    <Font cssVariable="--font-corpo" preload={[{ weight: 400 }]} />
+  </head>
+  <body class="flex min-h-screen flex-col bg-superficie font-corpo text-texto">
+    {
+      site.demo && (
+        <p
+          role="status"
+          class="bg-acento px-4 py-2 text-center text-sm font-semibold text-superficie"
+        >
+          {site.avisoDemo}
+        </p>
+      )
+    }
+
+    <main class="flex-1 pb-24 md:pb-0">
+      <slot />
+    </main>
+
+    {site.mercado === 'PT' ? <RodapePT /> : <RodapeBR />}
+
+    <BarraMobile />
+  </body>
+</html>

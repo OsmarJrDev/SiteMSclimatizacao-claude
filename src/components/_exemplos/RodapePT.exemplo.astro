@@ -1,0 +1,23 @@
+---
+// GOLDEN FILE: RodapePT.astro exige site.legalPT preenchido assim para sair
+// completo (sem [PREENCHER]). Copie esta forma para src/data/site.ts quando
+// o cliente for de Portugal:
+//
+// legalPT: {
+//   denominacao: 'Nome Comercial, Lda.',
+//   nif: '123456789',
+//   moradaCompleta: 'Rua Exemplo 45, 1000-000 Lisboa',
+//   registoComercial: 'Conservatória do Registo Comercial de Lisboa, nº 12345',
+//   entidadeRAL: { nome: 'Nome da entidade RAL', site: 'https://exemplo-ral.pt' },
+//   livroReclamacoesUrl: 'https://www.livroreclamacoes.pt/Inicio/',
+// },
+// registrosProfissionaisPT: [
+//   { tipo: 'ERS', numero: 'E-000000' },
+// ],
+//
+// Este arquivo so importa o componente real: sem esses dados em site.ts,
+// os campos aparecem como [PREENCHER] (nunca inventados).
+import RodapePT from '../sections/RodapePT.astro';
+---
+
+<RodapePT />

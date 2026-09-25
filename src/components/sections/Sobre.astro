@@ -1,0 +1,79 @@
+---
+// Duas variantes: "filete" (texto corrido com registro ao lado) e
+// "assimetrico" (texto grande + cartao de registros profissionais).
+import { site } from '../../data/site';
+
+interface Props {
+  variante?: 'filete' | 'assimetrico';
+  titulo?: string;
+  texto: string;
+}
+
+const { variante = 'filete', titulo = 'Sobre', texto } = Astro.props;
+const registrosBR = site.registrosProfissionaisBR ?? [];
+const registrosPT = site.registrosProfissionaisPT ?? [];
+const temRegistros = registrosBR.length > 0 || registrosPT.length > 0;
+---
+
+{
+  variante === 'filete' ? (
+    <section class="border-t border-linha bg-white/40" aria-labelledby="sobre-titulo">
+      <div class="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-[1fr_auto_1fr] md:py-24">
+        <div>
+          <h2 id="sobre-titulo" class="font-titulo text-3xl font-semibold text-base md:text-4xl">
+            {titulo}
+          </h2>
+          <p class="mt-5 max-w-[52ch] text-texto/70">{texto}</p>
+        </div>
+        <div class="hidden w-px bg-linha md:block" aria-hidden="true" />
+        {temRegistros && (
+          <dl class="space-y-3 text-sm">
+            {registrosBR.map((registro) => (
+              <div>
+                <dt class="font-semibold text-base">{registro.tipo}</dt>
+                <dd class="text-texto/70">
+                  {registro.numero}
+                  {registro.responsavelTecnico ? ` — ${registro.responsavelTecnico}` : ''}
+                </dd>
+              </div>
+            ))}
+            {registrosPT.map((registro) => (
+              <div>
+                <dt class="font-semibold text-base">{registro.tipo}</dt>
+                <dd class="text-texto/70">
+                  {registro.numero}
+                  {registro.responsavel ? ` — ${registro.responsavel}` : ''}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </div>
+    </section>
+  ) : (
+    <section class="border-t border-linha bg-white/40" aria-labelledby="sobre-titulo">
+      <div class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <h2 id="sobre-titulo" class="max-w-[22ch] font-titulo text-4xl font-semibold leading-tight text-base md:text-5xl">
+          {titulo}
+        </h2>
+        <p class="mt-6 max-w-[60ch] text-lg text-texto/70">{texto}</p>
+        {temRegistros && (
+          <div class="mt-8 inline-flex flex-col gap-2 rounded-[var(--radius-cartao)] border border-linha bg-superficie px-6 py-5 text-sm">
+            {registrosBR.map((registro) => (
+              <p>
+                <span class="font-semibold text-base">{registro.tipo}:</span> {registro.numero}
+                {registro.responsavelTecnico ? ` — ${registro.responsavelTecnico}` : ''}
+              </p>
+            ))}
+            {registrosPT.map((registro) => (
+              <p>
+                <span class="font-semibold text-base">{registro.tipo}:</span> {registro.numero}
+                {registro.responsavel ? ` — ${registro.responsavel}` : ''}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}

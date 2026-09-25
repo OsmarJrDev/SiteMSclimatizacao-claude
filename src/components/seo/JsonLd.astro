@@ -1,0 +1,57 @@
+---
+// JSON-LD do subtipo de LocalBusiness do nicho (site.schemaOrgTipo).
+// NAP tem que ser identico ao rodape (RodapeBR.astro / RodapePT.astro).
+// Nunca adicionar aggregateRating (CLAUDE.md secao 9): nota do Google so
+// entra se o cliente fornecer, com data, e fora deste bloco automatizado.
+import { site } from '../../data/site';
+import type { DiaDaSemana } from '../../data/site.schema';
+
+const diaParaSchemaOrg: Record<DiaDaSemana, string> = {
+  segunda: 'https://schema.org/Monday',
+  terca: 'https://schema.org/Tuesday',
+  quarta: 'https://schema.org/Wednesday',
+  quinta: 'https://schema.org/Thursday',
+  sexta: 'https://schema.org/Friday',
+  sabado: 'https://schema.org/Saturday',
+  domingo: 'https://schema.org/Sunday',
+};
+
+const openingHoursSpecification = site.horarios
+  .filter((h) => h.abertura && h.fechamento)
+  .map((h) => ({
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: diaParaSchemaOrg[h.dia],
+    opens: h.abertura,
+    closes: h.fechamento,
+  }));
+
+const urlSite = Astro.site ? Astro.site.toString() : '/';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': site.schemaOrgTipo,
+  name: site.nap.nomeComercial,
+  url: urlSite,
+  telephone: site.nap.telefone,
+  email: site.nap.email,
+  address: {
+    '@type': 'PostalAddress',
+    // [PREENCHER: decompor em streetAddress/addressLocality/addressRegion/postalCode
+    // quando o cliente confirmar cada campo separadamente]
+    streetAddress: site.nap.enderecoCurto,
+    addressCountry: site.mercado === 'PT' ? 'PT' : 'BR',
+  },
+  ...(site.nap.geo
+    ? {
+        geo: {
+          '@type': 'GeoCoordinates',
+          latitude: site.nap.geo.latitude,
+          longitude: site.nap.geo.longitude,
+        },
+      }
+    : {}),
+  openingHoursSpecification,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

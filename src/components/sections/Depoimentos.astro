@@ -1,0 +1,50 @@
+---
+// A secao so existe no HTML se houver pelo menos um depoimento aprovado
+// (fonte + aprovadoPeloCliente: true). Sem dado real, a secao some do build,
+// nao fica so escondida por CSS. Duas variantes: "grade" e "citacao".
+import { site } from '../../data/site';
+
+interface Props {
+  variante?: 'grade' | 'citacao';
+  titulo?: string;
+}
+
+const { variante = 'grade', titulo = 'O que dizem nossos pacientes' } = Astro.props;
+const temDepoimentos = site.depoimentos.length > 0;
+---
+
+{
+  temDepoimentos && (
+    <section class="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="depoimentos-titulo">
+      <h2 id="depoimentos-titulo" class="font-titulo text-3xl font-semibold text-base md:text-4xl">
+        {titulo}
+      </h2>
+
+      {variante === 'grade' ? (
+        <ul class="mt-10 grid gap-6 md:grid-cols-2">
+          {site.depoimentos.map((depoimento) => (
+            <li class="rounded-[var(--radius-cartao)] border border-linha bg-white/60 p-6">
+              <p class="text-texto/70">“{depoimento.texto}”</p>
+              <p class="mt-4 text-sm font-semibold text-base">
+                {depoimento.nomeCliente}
+                {depoimento.cargoOuContexto ? `, ${depoimento.cargoOuContexto}` : ''}
+              </p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul class="mt-10 space-y-10 border-t border-linha pt-8">
+          {site.depoimentos.map((depoimento) => (
+            <li class="max-w-[60ch]">
+              <p class="font-titulo text-2xl leading-snug text-base">“{depoimento.texto}”</p>
+              <p class="mt-3 text-sm text-texto/70">
+                {depoimento.nomeCliente}
+                {depoimento.cargoOuContexto ? `, ${depoimento.cargoOuContexto}` : ''}
+              </p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  )
+}

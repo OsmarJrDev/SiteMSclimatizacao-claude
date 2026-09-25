@@ -1,0 +1,52 @@
+---
+// Duas variantes: "linha" (lista horizontal com filetes) e "numeros"
+// (combina diferenciais com numeros reais aprovados, quando existirem).
+import { site } from '../../data/site';
+
+interface Props {
+  variante?: 'linha' | 'numeros';
+  titulo?: string;
+}
+
+const { variante = 'linha', titulo = 'Diferenciais' } = Astro.props;
+---
+
+<section class="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="diferenciais-titulo">
+  <h2 id="diferenciais-titulo" class="font-titulo text-3xl font-semibold text-base md:text-4xl">
+    {titulo}
+  </h2>
+
+  {
+    variante === 'linha' ? (
+      <ul class="mt-10 grid gap-x-8 gap-y-6 border-t border-linha pt-8 sm:grid-cols-2 lg:grid-cols-3">
+        {site.diferenciais.map((item) => (
+          <li class="border-l-2 border-destaque pl-4">
+            <h3 class="font-semibold text-base">{item.titulo}</h3>
+            <p class="mt-1 text-sm text-texto/70">{item.descricao}</p>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="mt-10 grid gap-10 md:grid-cols-2">
+        <ul class="space-y-6">
+          {site.diferenciais.map((item) => (
+            <li>
+              <h3 class="font-semibold text-base">{item.titulo}</h3>
+              <p class="mt-1 text-sm text-texto/70">{item.descricao}</p>
+            </li>
+          ))}
+        </ul>
+        {site.numeros.length > 0 && (
+          <ul class="grid grid-cols-2 gap-6 self-start rounded-[var(--radius-cartao)] bg-base p-6 text-superficie">
+            {site.numeros.map((numero) => (
+              <li>
+                <p class="font-titulo text-3xl font-semibold">{numero.valor}</p>
+                <p class="mt-1 text-sm text-destaque">{numero.legenda}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )
+  }
+</section>

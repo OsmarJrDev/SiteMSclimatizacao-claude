@@ -1,0 +1,21 @@
+---
+// Barra fixa no rodape do mobile com WhatsApp e Ligar (CLAUDE.md secao 8).
+// Some em telas md+ porque o cabecalho/hero ja mostra os mesmos links.
+import { site } from '../../data/site';
+import { linkWhatsApp, linkTelefone } from '../../lib/endereco';
+
+const linkWpp = linkWhatsApp(site.nap.whatsappDigitos, 'Olá, vim pelo site');
+const linkTel = linkTelefone(site.nap.telefone);
+---
+
+<nav
+  aria-label="Contacto rápido"
+  class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 border-t border-linha bg-superficie text-sm font-semibold shadow-[0_-8px_20px_-16px_rgb(0_0_0/0.4)] md:hidden"
+>
+  <a href={linkWpp} class="flex items-center justify-center gap-2 bg-acento py-4 text-superficie">
+    WhatsApp
+  </a>
+  <a href={linkTel} class="flex items-center justify-center gap-2 bg-base py-4 text-superficie">
+    Ligar
+  </a>
+</nav>

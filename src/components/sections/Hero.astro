@@ -1,0 +1,76 @@
+---
+// Duas variantes estruturais (nao so de cor):
+// - "editorial": grid assimetrico 2 colunas, com a grelha de lâminas
+//   horizontais (elemento-assinatura da direção "Sombra e cal") no lugar do
+//   filete liso do _base.
+// - "cartao": titulo em coluna unica com cartao de horario sobreposto.
+// Botões com bg-acento usam text-superficie (não text-texto): ver nota de
+// contraste em src/styles/global.css.
+import { site } from '../../data/site';
+import { cidadeDoEndereco, linkWhatsApp } from '../../lib/endereco';
+
+interface Props {
+  variante?: 'editorial' | 'cartao';
+  chamada: string;
+  subtitulo: string;
+}
+
+const { variante = 'editorial', chamada, subtitulo } = Astro.props;
+const cidade = cidadeDoEndereco(site.nap.enderecoCurto);
+const linkWpp = linkWhatsApp(site.nap.whatsappDigitos, 'Olá, vim pelo site');
+const horarioDeHoje = site.horarios[new Date().getDay() === 0 ? 6 : new Date().getDay() - 1];
+---
+
+{
+  variante === 'editorial' ? (
+    <section class="border-b border-linha bg-superficie" aria-labelledby="hero-titulo">
+      <div class="mx-auto grid max-w-6xl gap-8 px-6 py-16 md:grid-cols-[auto_1fr] md:gap-12 md:py-24">
+        <div class="hidden w-2 grelha-assinatura md:block" aria-hidden="true" />
+        <div class="max-w-[38ch]">
+          <p class="text-sm font-semibold text-base/80">{site.nicho} em {cidade}</p>
+          <h1
+            id="hero-titulo"
+            class="mt-3 font-titulo text-4xl font-semibold leading-[1.05] text-base md:text-6xl"
+          >
+            {chamada}
+          </h1>
+          <p class="mt-5 max-w-[42ch] text-lg text-texto/70">{subtitulo}</p>
+          <div class="mt-8 flex flex-wrap items-center gap-4">
+            <a
+              href={linkWpp}
+              class="inline-flex items-center gap-2 rounded-[var(--radius-cartao)] bg-acento px-6 py-3 font-semibold text-superficie shadow-[var(--shadow-cartao)] transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+            >
+              Pedir orçamento pelo WhatsApp
+            </a>
+            {horarioDeHoje.abertura && (
+              <p class="text-sm text-texto/70">
+                Hoje: {horarioDeHoje.abertura} às {horarioDeHoje.fechamento}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <section class="relative overflow-hidden border-b border-linha bg-base" aria-labelledby="hero-titulo">
+      <div class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <p class="text-sm font-semibold text-destaque">{site.nicho} em {cidade}</p>
+        <h1
+          id="hero-titulo"
+          class="mt-3 max-w-[20ch] font-titulo text-4xl font-semibold leading-[1.02] text-superficie md:text-7xl"
+        >
+          {chamada}
+        </h1>
+        <div class="mt-8 max-w-md rounded-[var(--radius-cartao)] border border-white/15 bg-superficie/95 p-6 shadow-[var(--shadow-cartao)]">
+          <p class="text-texto/70">{subtitulo}</p>
+          <a
+            href={linkWpp}
+            class="mt-5 inline-flex items-center gap-2 rounded-[var(--radius-cartao)] bg-acento px-6 py-3 font-semibold text-superficie transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+          >
+            Pedir orçamento pelo WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}

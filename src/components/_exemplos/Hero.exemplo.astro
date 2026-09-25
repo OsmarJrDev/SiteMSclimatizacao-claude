@@ -1,0 +1,19 @@
+---
+// GOLDEN FILE: uso correto de Hero.astro. As duas variantes existem para
+// evitar o hero centralizado generico (CLAUDE.md secao 6, padroes proibidos).
+// "chamada" tem que trazer servico + cidade/bairro (secao 8). Nunca CTA vago:
+// sempre "Agendar" / "Marcar" + canal.
+import Hero from '../sections/Hero.astro';
+---
+
+<Hero
+  variante="editorial"
+  chamada="Cuidado médico completo, perto de você"
+  subtitulo="Consultas com especialidades variadas, agenda flexível e atendimento humanizado do início ao fim."
+/>
+
+<Hero
+  variante="cartao"
+  chamada="Seu sorriso, tratado com técnica e cuidado"
+  subtitulo="Avaliação inicial em até 48 horas, com plano de tratamento explicado antes de qualquer procedimento."
+/>

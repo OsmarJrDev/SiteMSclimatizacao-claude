@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de design. Único lugar com cores, fontes, raio e sombra do site.
+ * Nada de hex solto em componente: use sempre as classes utilitárias do
+ * Tailwind geradas a partir destes tokens (bg-base, text-acento, font-titulo
+ * etc). Ao trocar de cliente, troque só os valores aqui e em src/data/site.ts.
+ */
+@theme {
+  /*
+   * Direção visual própria da MS Climatização (docs/nichos.md, nicho
+   * "Climatização e Ar Condicionado"): "Sombra e cal", inspirada na
+   * arquitetura real do Algarve (parede caiada, telha de barro, sombra
+   * como forma de conforto térmico), sem clichê de floco de neve, sol
+   * genérico ou gradiente.
+   */
+  --color-base: #123c44; /* azulejo profundo / sombra e frescor */
+  --color-superficie: #f4efe4; /* cal quente, parede caiada */
+  --color-texto: #1c2321; /* carvão, quase preto */
+  --color-destaque: #cfe3dc; /* verde-água claro (azulejo), ~8,9:1 sobre --color-base */
+  /*
+   * Terracota queimada (telha de barro do Algarve). Contraste medido
+   * (WCAG, fórmula de luminância relativa):
+   *   --color-acento sobre --color-superficie (ou --color-acento como texto
+   *   sobre --color-superficie) = ~5,4:1 -> passa AA para qualquer tamanho.
+   *   --color-texto sobre --color-acento = ~2,6:1 -> NÃO passa AA.
+   * Por isso, todo botão com fundo --color-acento usa texto
+   * --color-superficie (claro), nunca --color-texto. Ver Hero.astro,
+   * _ContatoInfo.astro, BarraMobile.astro e 404.astro.
+   */
+  --color-acento: #a83e22;
+  --color-linha: #d8cbb3; /* areia, linhas e bordas */
+
+  /*
+   * O valor real (com a familia baixada pela Fonts API e o fallback
+   * otimizado) é injetado em runtime pelo componente <Font /> no
+   * src/layouts/Base.astro. O valor abaixo é só o fallback de build.
+   */
+  --font-titulo: 'Space Grotesk Fallback', sans-serif;
+  --font-corpo: 'Instrument Sans Fallback', sans-serif;
+
+  --radius-cartao: 0.75rem;
+  --shadow-cartao: 0 12px 32px -16px rgb(28 35 33 / 0.35);
+}
+
+/*
+ * Elemento-assinatura desta direção: uma grelha de lâminas horizontais,
+ * referência real à persiana/grelha de ventilação da arquitetura do
+ * Algarve (e, por extensão, às lâminas de um difusor de ar condicionado),
+ * em vez de um ícone de floco de neve, sol ou gradiente. Usado como barra
+ * vertical decorativa no Hero (variante "editorial").
+ */
+.grelha-assinatura {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--color-acento) 0px,
+    var(--color-acento) 4px,
+    transparent 4px,
+    transparent 13px
+  );
+}
+
+/*
+ * Transição entre páginas só via CSS nativo (Astro 6+). Nunca usar
+ * <ViewTransitions /> nem <ClientRouter />.
+ */
+@view-transition {
+  navigation: auto;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  font-family: var(--font-corpo);
+  /*
+   * Trava de segurança contra overflow horizontal: um e-mail ou link
+   * comprido sem espaço (ex.: privacidade@democlinicaexemplo.com.br) não
+   * quebra por padrão e estoura a coluna em telas estreitas.
+   */
+  overflow-wrap: anywhere;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-titulo);
+}
+
+/* O site funciona igual sem animação: isto só remove o movimento, nunca o conteúdo. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

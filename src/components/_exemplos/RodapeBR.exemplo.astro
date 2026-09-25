@@ -1,0 +1,9 @@
+---
+// GOLDEN FILE: RodapeBR.astro le site.legalBR e site.registrosProfissionaisBR.
+// Campo obrigatorio vazio (razaoSocial, cnpj, canalTitularDados) fica
+// [PREENCHER] no rodape em vez de quebrar o build — mas nunca vai para
+// producao assim (validar-conteudo.mjs barra com DEPLOY_ALVO=producao).
+import RodapeBR from '../sections/RodapeBR.astro';
+---
+
+<RodapeBR />

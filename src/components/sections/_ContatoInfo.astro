@@ -1,0 +1,72 @@
+---
+// Sub-componente interno de Contato.astro: dados de contato e horarios.
+// Adaptação própria deste cliente (não existe no _base): quando NENHUM dia
+// tem horário confirmado, mostra um aviso [PREENCHER] em vez de uma tabela
+// com todos os dias como "Fechado" (o que sugeriria empresa inativa, tão
+// enganoso quanto inventar um horário).
+import { site } from '../../data/site';
+import { linkWhatsApp, linkTelefone } from '../../lib/endereco';
+
+const nomesDia: Record<string, string> = {
+  segunda: 'Segunda',
+  terca: 'Terça',
+  quarta: 'Quarta',
+  quinta: 'Quinta',
+  sexta: 'Sexta',
+  sabado: 'Sábado',
+  domingo: 'Domingo',
+};
+
+const linkWpp = linkWhatsApp(site.nap.whatsappDigitos, 'Olá, vim pelo site');
+const linkTel = linkTelefone(site.nap.telefone);
+const emailPendente = site.nap.email.startsWith('[PREENCHER');
+const horarioConfirmado = site.horarios.some((h) => h.abertura !== null);
+---
+
+<div>
+  <h3 class="font-titulo text-2xl font-semibold text-base">Contactos</h3>
+  <ul class="mt-4 space-y-2 text-texto/70">
+    <li>{site.nap.enderecoCurto}</li>
+    <li>
+      <a class="underline decoration-linha underline-offset-4 hover:decoration-acento" href={linkTel}>
+        {site.nap.telefone}
+      </a>
+    </li>
+    <li>
+      {emailPendente ? (
+        site.nap.email
+      ) : (
+        <a class="underline decoration-linha underline-offset-4 hover:decoration-acento" href={`mailto:${site.nap.email}`}>
+          {site.nap.email}
+        </a>
+      )}
+    </li>
+  </ul>
+  <a
+    href={linkWpp}
+    class="mt-5 inline-flex items-center gap-2 rounded-[var(--radius-cartao)] bg-acento px-6 py-3 font-semibold text-superficie"
+  >
+    Pedir orçamento pelo WhatsApp
+  </a>
+  {horarioConfirmado ? (
+    <table class="mt-6 w-full max-w-sm text-sm text-texto/70">
+      <caption class="mb-2 text-left font-semibold text-base">Horário de funcionamento</caption>
+      <tbody>
+        {
+          site.horarios.map((h) => (
+            <tr class="border-t border-linha">
+              <th scope="row" class="py-1.5 text-left font-normal">
+                {nomesDia[h.dia]}
+              </th>
+              <td class="py-1.5 text-right">{h.abertura ? `${h.abertura} às ${h.fechamento}` : 'Fechado'}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  ) : (
+    <p class="mt-6 max-w-sm text-sm text-texto/70">
+      [PREENCHER: horário de funcionamento, a confirmar com o cliente]
+    </p>
+  )}
+</div>

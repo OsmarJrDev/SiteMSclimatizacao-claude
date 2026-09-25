@@ -1,0 +1,37 @@
+---
+// Mapa como imagem estatica com link para o Google Maps, nunca embed
+// (CLAUDE.md secao 3: "Nao usar: embed de Google Maps"). Duas variantes:
+// "mapa-lado" (mapa ao lado da lista) e "empilhado" (mapa acima, cheio).
+import ContatoMapa from './_ContatoMapa.astro';
+import ContatoInfo from './_ContatoInfo.astro';
+
+interface Props {
+  variante?: 'mapa-lado' | 'empilhado';
+}
+
+const { variante = 'mapa-lado' } = Astro.props;
+---
+
+<section id="contato" class="border-t border-linha bg-white/40" aria-labelledby="contato-titulo">
+  <h2 id="contato-titulo" class="sr-only">Contacto e localização</h2>
+  <div
+    class:list={[
+      'mx-auto max-w-6xl gap-10 px-6 py-16 md:py-24',
+      variante === 'mapa-lado' ? 'grid md:grid-cols-2 md:items-start' : 'flex flex-col',
+    ]}
+  >
+    {
+      variante === 'mapa-lado' ? (
+        <>
+          <ContatoInfo />
+          <ContatoMapa />
+        </>
+      ) : (
+        <>
+          <ContatoMapa />
+          <ContatoInfo />
+        </>
+      )
+    }
+  </div>
+</section>

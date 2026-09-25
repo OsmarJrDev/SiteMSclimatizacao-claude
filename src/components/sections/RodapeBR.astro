@@ -1,0 +1,50 @@
+---
+// Rodape para mercado BR. NAP tem que bater com o JsonLd.astro.
+// Campos legais: LGPD (Politica de Privacidade), razao social, CNPJ,
+// registros profissionais do nicho (CLAUDE.md secao 10).
+import { site } from '../../data/site';
+
+const legal = site.legalBR;
+const registros = site.registrosProfissionaisBR ?? [];
+const ano = new Date().getFullYear();
+---
+
+<footer class="border-t border-linha bg-base text-superficie">
+  <div class="mx-auto max-w-6xl px-6 py-12">
+    <div class="grid gap-8 md:grid-cols-3">
+      <div>
+        <p class="font-titulo text-lg font-semibold">{site.nap.nomeComercial}</p>
+        <p class="mt-2 text-sm text-destaque">{site.nap.enderecoCurto}</p>
+        <p class="mt-1 text-sm text-destaque">{site.nap.telefone} · {site.nap.email}</p>
+      </div>
+
+      {registros.length > 0 && (
+        <div>
+          <p class="text-sm font-semibold text-destaque">Registros profissionais</p>
+          <ul class="mt-2 space-y-1 text-sm">
+            {registros.map((registro) => (
+              <li>
+                {registro.tipo} {registro.numero}
+                {registro.responsavelTecnico ? ` — ${registro.responsavelTecnico}` : ''}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <div class="text-sm">
+        <p class="font-semibold text-destaque">Legal</p>
+        <ul class="mt-2 space-y-1">
+          <li><a class="underline hover:text-destaque" href="/politica-de-privacidade">Política de Privacidade (LGPD)</a></li>
+          {legal && <li>{legal.razaoSocial} · CNPJ {legal.cnpj}</li>}
+          {legal && <li>Canal do titular de dados: {legal.canalTitularDados}</li>}
+        </ul>
+      </div>
+    </div>
+
+    <p class="mt-10 border-t border-white/15 pt-6 text-xs text-destaque">
+      © {ano} {site.nap.nomeComercial}. Todos os direitos reservados.
+      {site.demo && ' Site de demonstração com dados fictícios, sem correspondência com pessoa ou empresa real.'}
+    </p>
+  </div>
+</footer>

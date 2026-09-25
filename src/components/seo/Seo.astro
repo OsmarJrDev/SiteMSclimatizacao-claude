@@ -1,0 +1,37 @@
+---
+// Metadados de SEO alimentados por src/data/site.ts. Nao duplicar aqui:
+// qualquer texto novo entra em site.ts.
+import { site } from '../../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+
+const paginaTitulo = title ?? site.seo.tituloPadrao;
+const paginaDescricao = description ?? site.seo.descricaoPadrao;
+const canonical = new URL(Astro.url.pathname, Astro.site).toString();
+const ogImagem = new URL(site.seo.ogImagem, Astro.site).toString();
+const ogLocale = site.mercado === 'PT' ? 'pt_PT' : 'pt_BR';
+---
+
+<title>{paginaTitulo}</title>
+<meta name="description" content={paginaDescricao} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={paginaTitulo} />
+<meta property="og:description" content={paginaDescricao} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImagem} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:site_name" content={site.nap.nomeComercial} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={paginaTitulo} />
+<meta name="twitter:description" content={paginaDescricao} />
+<meta name="twitter:image" content={ogImagem} />

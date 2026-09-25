@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/sections/Hero.astro';
+import Servicos from '../components/sections/Servicos.astro';
+import Sobre from '../components/sections/Sobre.astro';
+import Diferenciais from '../components/sections/Diferenciais.astro';
+import Depoimentos from '../components/sections/Depoimentos.astro';
+import Faq from '../components/sections/Faq.astro';
+import Contato from '../components/sections/Contato.astro';
+---
+
+<Base>
+  <Hero
+    variante="editorial"
+    chamada="Conforto térmico para a casa e para o negócio"
+    subtitulo="Instalação e manutenção de ar condicionado no Algarve, com atendimento direto do técnico responsável e orçamento pelo WhatsApp."
+  />
+  <Servicos variante="grade" />
+  <Sobre
+    variante="assimetrico"
+    titulo="Sobre a MS Climatização"
+    texto="A MS Climatização atua na instalação e manutenção de ar condicionado no Algarve, com atuação específica em Quarteira. Os trabalhos são acompanhados por Dione Ademir, responsável técnico, com recurso a ferramentas profissionais Berner. A empresa também partilha, no Instagram (@msclimatizacaopt), esclarecimentos sobre manutenção e mitos ligados à saúde e ao ar condicionado."
+  />
+  <Diferenciais variante="linha" />
+  <Depoimentos variante="grade" />
+  <Faq variante="acordeao" />
+  <Contato variante="mapa-lado" />
+</Base>

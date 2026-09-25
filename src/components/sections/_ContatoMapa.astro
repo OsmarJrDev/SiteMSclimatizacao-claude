@@ -1,0 +1,22 @@
+---
+// Sub-componente interno de Contato.astro: mapa estatico com link, nunca embed.
+import { Image } from 'astro:assets';
+import { site } from '../../data/site';
+import mapaDemo from '../../assets/mapa-demo.svg';
+---
+
+<a
+  href={site.mapa.linkGoogleMaps}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="block overflow-hidden rounded-[var(--radius-cartao)] border border-linha"
+>
+  <Image
+    src={mapaDemo}
+    alt={`Mapa ilustrativo da localização de ${site.nap.nomeComercial}`}
+    width={640}
+    height={360}
+    class="h-auto w-full"
+  />
+  <span class="block bg-base px-4 py-2 text-sm font-semibold text-superficie">Ver rota no Google Maps</span>
+</a>

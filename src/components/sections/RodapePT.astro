@@ -1,0 +1,71 @@
+---
+// Rodape para mercado PT. Campos obrigatorios (CLAUDE.md secao 10 / docs/legal.md):
+// identificacao do prestador (denominacao, morada, e-mail, registo, NIF, ordem),
+// Livro de Reclamacoes Eletronico em todas as paginas, entidade RAL,
+// Politica de Privacidade e Cookies. Se site.legalPT nao existir ainda,
+// mostra [PREENCHER] em vez de inventar o dado.
+import { site } from '../../data/site';
+
+const legal = site.legalPT;
+const registros = site.registrosProfissionaisPT ?? [];
+const ano = new Date().getFullYear();
+---
+
+<footer class="border-t border-linha bg-base text-superficie">
+  <div class="mx-auto max-w-6xl px-6 py-12">
+    <div class="grid gap-8 md:grid-cols-3">
+      <div>
+        <p class="font-titulo text-lg font-semibold">{site.nap.nomeComercial}</p>
+        <p class="mt-2 text-sm text-destaque">{legal?.moradaCompleta ?? '[PREENCHER: morada completa]'}</p>
+        <p class="mt-1 text-sm text-destaque">{site.nap.telefone} · {site.nap.email}</p>
+      </div>
+
+      <div>
+        <p class="text-sm font-semibold text-destaque">Identificação do prestador</p>
+        <ul class="mt-2 space-y-1 text-sm">
+          <li>{legal?.denominacao ?? '[PREENCHER: denominação social]'}</li>
+          <li>NIF {legal?.nif ?? '[PREENCHER]'}</li>
+          <li>Registo comercial {legal?.registoComercial ?? '[PREENCHER]'}</li>
+          {registros.map((registro) => (
+            <li>
+              {registro.tipo} {registro.numero}
+              {registro.responsavel ? ` — ${registro.responsavel}` : ''}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="text-sm">
+        <p class="font-semibold text-destaque">Legal</p>
+        <ul class="mt-2 space-y-1">
+          <li><a class="underline hover:text-destaque" href="/politica-de-privacidade">Política de Privacidade e Cookies</a></li>
+          <li>
+            <a
+              class="underline hover:text-destaque"
+              href={legal?.livroReclamacoesUrl ?? 'https://www.livroreclamacoes.pt/Inicio/'}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Livro de Reclamações Eletrónico
+            </a>
+          </li>
+          <li>
+            Entidade de Resolução Alternativa de Litígios:{' '}
+            {legal?.entidadeRAL ? (
+              <a class="underline hover:text-destaque" href={legal.entidadeRAL.site} target="_blank" rel="noopener noreferrer">
+                {legal.entidadeRAL.nome}
+              </a>
+            ) : (
+              '[PREENCHER: nome e site da entidade RAL]'
+            )}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="mt-10 border-t border-white/15 pt-6 text-xs text-destaque">
+      © {ano} {site.nap.nomeComercial}. Todos os direitos reservados.
+      {site.demo && ' Site de demonstração com dados fictícios, sem correspondência com pessoa ou empresa real.'}
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-labelledby="mapaTitulo">
+  <title id="mapaTitulo">Ilustração estática de localização (mapa real substituído na entrega ao cliente)</title>
+  <rect width="640" height="360" fill="#F7F8F6" />
+  <g stroke="#D9E1DC" stroke-width="10" fill="none">
+    <path d="M0 90 H640" />
+    <path d="M0 210 H640" />
+    <path d="M120 0 V360" />
+    <path d="M420 0 V360" />
+  </g>
+  <g stroke="#8FB3A0" stroke-width="14" fill="none">
+    <path d="M-20 260 C 160 180, 320 320, 660 150" />
+  </g>
+  <circle cx="320" cy="180" r="16" fill="#1F4E5F" />
+  <path d="M320 150 C300 150 284 166 284 186 C284 214 320 250 320 250 C320 250 356 214 356 186 C356 166 340 150 320 150 Z" fill="#E07A5F" />
+  <circle cx="320" cy="186" r="10" fill="#F7F8F6" />
+</svg>

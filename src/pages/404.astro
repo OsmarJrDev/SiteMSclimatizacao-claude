@@ -1,0 +1,26 @@
+---
+import Base from '../layouts/Base.astro';
+import { linkWhatsApp } from '../lib/endereco';
+import { site } from '../data/site';
+
+const linkWpp = linkWhatsApp(site.nap.whatsappDigitos, 'Olá, vim pelo site e não encontrei uma página');
+---
+
+<Base title={`Página não encontrada — ${site.nap.nomeComercial}`} noindex>
+  <section class="mx-auto flex max-w-2xl flex-col items-start px-6 py-24">
+    <p class="font-titulo text-6xl font-semibold text-base">{'404'}</p>
+    <h1 class="mt-4 font-titulo text-3xl font-semibold text-base">Esta página não existe</h1>
+    <p class="mt-4 text-texto/70">
+      O endereço acedido não corresponde a nenhuma página deste site. Volte ao início ou contacte a
+      MS Climatização pelo WhatsApp.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a href="/" class="rounded-[var(--radius-cartao)] border border-linha px-6 py-3 font-semibold text-base">
+        Voltar ao início
+      </a>
+      <a href={linkWpp} class="rounded-[var(--radius-cartao)] bg-acento px-6 py-3 font-semibold text-superficie">
+        Falar pelo WhatsApp
+      </a>
+    </div>
+  </section>
+</Base>

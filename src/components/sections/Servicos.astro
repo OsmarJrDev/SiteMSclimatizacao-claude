@@ -1,0 +1,68 @@
+---
+// Duas variantes: "grade" (cartoes) e "lista" (linhas editoriais com filete).
+// Adaptação própria deste cliente (não existe no _base): quando
+// servico.confirmado === false, mostra "(a confirmar)" ao lado do nome,
+// porque a lista vem de indício visual nos posts do Instagram/Facebook,
+// não de confirmação escrita do cliente (ver site.ts e o relatório final).
+import { site } from '../../data/site';
+
+interface Props {
+  variante?: 'grade' | 'lista';
+  titulo?: string;
+}
+
+const { variante = 'grade', titulo = 'Serviços' } = Astro.props;
+const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false);
+---
+
+<section id="servicos" class="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="servicos-titulo">
+  <h2 id="servicos-titulo" class="max-w-[24ch] font-titulo text-3xl font-semibold text-base md:text-4xl">
+    {titulo}
+  </h2>
+  {temServicoNaoConfirmado && (
+    <p class="mt-3 max-w-[60ch] text-sm text-texto/70">
+      Lista identificada a partir das publicações da empresa nas redes sociais; a confirmar com a
+      MS Climatização antes da publicação final do site.
+    </p>
+  )}
+
+  {
+    variante === 'grade' ? (
+      <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {site.servicos.map((servico) => (
+          <li class="rounded-[var(--radius-cartao)] border-t-4 border-acento bg-white/60 p-6">
+            <h3 class="font-titulo text-xl font-semibold text-base">
+              {servico.nome}
+              {servico.confirmado === false && (
+                <span class="ml-1 text-sm font-normal text-texto/70">(a confirmar)</span>
+              )}
+            </h3>
+            <p class="mt-2 text-sm text-texto/70">{servico.descricao}</p>
+            {servico.precoAPartir && (
+              <p class="mt-3 text-sm font-semibold text-acento">a partir de {servico.precoAPartir}</p>
+            )}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <ul class="mt-10 divide-y divide-linha border-y border-linha">
+        {site.servicos.map((servico) => (
+          <li class="grid gap-2 py-6 md:grid-cols-[minmax(0,16ch)_1fr] md:gap-8">
+            <h3 class="font-titulo text-xl font-semibold text-base">
+              {servico.nome}
+              {servico.confirmado === false && (
+                <span class="ml-1 text-sm font-normal text-texto/70">(a confirmar)</span>
+              )}
+            </h3>
+            <div>
+              <p class="text-texto/70">{servico.descricao}</p>
+              {servico.precoAPartir && (
+                <p class="mt-2 text-sm font-semibold text-acento">a partir de {servico.precoAPartir}</p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</section>

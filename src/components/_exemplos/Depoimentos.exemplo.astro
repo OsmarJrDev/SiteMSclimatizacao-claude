@@ -1,0 +1,20 @@
+---
+// GOLDEN FILE: Depoimentos.astro so renderiza algo se site.depoimentos tiver
+// pelo menos 1 item. Forma correta de um item em site.ts (copie este molde):
+//
+// depoimentos: [
+//   {
+//     nomeCliente: 'Nome real do paciente',
+//     cargoOuContexto: 'paciente desde 2024',
+//     texto: 'Texto real, copiado com autorização do paciente.',
+//     fonte: 'print do Google em 12/09/2026, autorização assinada em anexo',
+//     aprovadoPeloCliente: true,
+//   },
+// ],
+//
+// Sem isso, a secao nao aparece no HTML (nao e so display:none — some do
+// build). Este arquivo so importa o componente real, sem inventar dado.
+import Depoimentos from '../sections/Depoimentos.astro';
+---
+
+<Depoimentos variante="grade" />

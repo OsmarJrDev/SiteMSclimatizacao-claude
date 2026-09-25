@@ -1,0 +1,32 @@
+{
+  "name": "base",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=24.0.0 <25"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "prebuild": "node scripts/validar-conteudo.mjs && node scripts/validar-ptpt.mjs",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "qa": "node scripts/qa.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.3.5",
+    "tailwindcss": "4.3.3"
+  },
+  "allowScripts": {
+    "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@axe-core/playwright": "4.13.0",
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.63.0",
+    "typescript": "6.0.3"
+  }
+}

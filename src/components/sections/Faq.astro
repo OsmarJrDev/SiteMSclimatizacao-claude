@@ -1,0 +1,48 @@
+---
+// FAQ so como conteudo visivel (details/summary nativo, sem JS). Nao gera
+// FAQPage schema: o rich result foi encerrado em 07/05/2026 (CLAUDE.md secao 9).
+// Duas variantes: "acordeao" (details/summary) e "duas-colunas" (sempre aberto).
+import { site } from '../../data/site';
+
+interface Props {
+  variante?: 'acordeao' | 'duas-colunas';
+  titulo?: string;
+}
+
+const { variante = 'acordeao', titulo = 'Perguntas frequentes' } = Astro.props;
+---
+
+<section class="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="faq-titulo">
+  <h2 id="faq-titulo" class="font-titulo text-3xl font-semibold text-base md:text-4xl">
+    {titulo}
+  </h2>
+
+  {
+    variante === 'acordeao' ? (
+      <div class="mt-8 divide-y divide-linha border-y border-linha">
+        {site.faq.map((item) => (
+          <details class="group py-4">
+            <summary class="cursor-pointer list-none font-semibold text-base marker:content-none">
+              <span class="flex items-center justify-between gap-4">
+                {item.pergunta}
+                <span aria-hidden="true" class="text-acento group-open:rotate-45 transition-transform motion-reduce:transition-none">
+                  +
+                </span>
+              </span>
+            </summary>
+            <p class="mt-3 max-w-[65ch] text-texto/70">{item.resposta}</p>
+          </details>
+        ))}
+      </div>
+    ) : (
+      <dl class="mt-8 grid gap-x-10 gap-y-8 border-t border-linha pt-8 md:grid-cols-2">
+        {site.faq.map((item) => (
+          <div>
+            <dt class="font-semibold text-base">{item.pergunta}</dt>
+            <dd class="mt-2 text-texto/70">{item.resposta}</dd>
+          </div>
+        ))}
+      </dl>
+    )
+  }
+</section>
