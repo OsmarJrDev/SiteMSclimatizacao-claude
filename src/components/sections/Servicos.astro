@@ -2,13 +2,12 @@
 // Tres variantes: "grade" (cartoes), "lista" (linhas editoriais com filete)
 // e "numerada" (acordeao 01/02/03 com resumo + "ver mais" na mesma pagina;
 // numeracao permitida aqui porque organiza conteudo real, nao e decorativa).
-// Variante "numerada" carrega o tratamento de linhas de cota/anotação da
-// direção "Precisão Técnica" (.linha-cota-h, em src/styles/global.css):
-// cada cartão ganha uma cota horizontal no topo e o índice em fonte
-// monoespaçada, como um rótulo de desenho técnico. O âmbar (--color-acento)
-// não aparece aqui: é reservado ao botão de WhatsApp (ver nota em
-// src/styles/global.css), então índice, ícone "+" e preço usam o azul aço
-// (--color-destaque).
+// Variante "numerada" carrega o elemento-assinatura "frio encontra quente"
+// da direção atual (.fio-termico-h, em src/styles/global.css): cada cartão
+// ganha um fio em degradê azul->coral no topo, e o índice continua em fonte
+// monoespaçada. O coral (--color-acento) não aparece aqui: é reservado ao
+// botão de WhatsApp (ver nota em src/styles/global.css), então índice, ícone
+// "+" e preço usam o azul do floco (--color-destaque).
 // Adaptação própria deste cliente (não existe no _base): quando
 // servico.confirmado === false, mostra "(a confirmar)" ao lado do nome,
 // porque a lista vem de indício visual nos posts do Instagram/Facebook,
@@ -95,7 +94,7 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
     ) : (
       <div class="mt-10 space-y-3">
         {site.servicos.map((servico, indice) => (
-          <details class="linha-cota-h group border-b border-linha pb-6 pt-7">
+          <details class="fio-termico-h group border-b border-linha pb-6 pt-7">
             <summary class="flex cursor-pointer list-none items-start gap-5 marker:content-none">
               <span class="font-rotulo text-sm font-medium text-destaque md:text-base" aria-hidden="true">
                 {String(indice + 1).padStart(2, '0')} /

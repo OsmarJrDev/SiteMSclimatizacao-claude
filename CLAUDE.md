@@ -5,22 +5,49 @@
 - Objetivo do site: gerar mensagem no WhatsApp e ligação. Sem formulário.
 - Tipo: landing de 1 página.
 
-## Direção visual: "Precisão Técnica"
-Fundo grafite quase preto (#14181A) em todo o site (nunca alterna com um
-fundo claro), azul aço (#9FC1D1) para anotações e rótulos, e âmbar de
-sinalização (#E8A33D) reservado ao botão/CTA (nunca como texto corrido).
-Tipografia JetBrains Mono (rótulos: eyebrow, índices numerados, anotações
-do diagrama, cssVariable `--font-rotulo`) + Archivo (títulos, com peso 800,
-e corpo, mesma família nas duas funções, `--font-titulo` é um alias CSS de
-`--font-corpo` em `src/styles/global.css`). Herói em split de 2 colunas:
-texto à esquerda, diagrama técnico linear de um ar condicionado (unidade
-interior, filtro, fluxo de ar, unidade exterior, linhas de cota) à direita,
-em `Hero.astro`. Elemento-assinatura: linhas de cota e anotação, estilo
-desenho técnico (`.linha-cota` e `.linha-cota-h` em `src/styles/global.css`),
-reaproveitado nos cartões de serviço numerados (`Servicos.astro`, variante
-"numerada"), nunca ícone de floco de neve, sol genérico ou gradiente.
-Direção anterior ("Sombra e cal") descontinuada; ver `previa-3-direcoes.html`
-para as 3 direções comparadas antes da escolha do cliente.
+## Direção visual: identidade real da marca (4ª tentativa, definitiva)
+As 3 tentativas anteriores ("Sombra e cal", "Precisão Técnica" e as
+descartadas "Ar Puro"/"Luz Algarvia") foram rejeitadas pelo cliente por
+serem conceitos abstratos inventados, sem relação com a marca real; a
+última ainda regrediu para um fundo escuro e teve um diagrama técnico
+confuso ("parece placa de vídeo com varal"). Esta direção não inventa
+conceito nenhum: parte do logo real do cliente
+(`src/assets/logo-ms-climatizacao.png`, tratado para fundo transparente a
+partir do arquivo original) e das cores extraídas por amostragem de pixel
+dele (não são chute): fundo branco do logo, "MS" em preto, floco de neve
+azul claro (~#9ED9EB) e sol em degradê pêssego->coral (~#FFD895 ->
+~#FFAC8D). Site CLARO (fundo #FDFCFA, branco levemente quente), nunca mais
+escuro. Ink escuro (#1A1A1A) para títulos e texto de botão, corpo de texto
+em #2A2D30 (calibrado para continuar >= 4.5:1 mesmo com a opacidade
+`text-texto/70` usada em vários parágrafos), azul do floco escurecido para
+`#146378` (o tom claro original do logo não passaria AA sobre fundo claro)
+e o degradê pêssego->coral reservado ao botão/CTA (`.botao-cta` em
+`src/styles/global.css`), nunca como texto corrido nem fundo de bloco
+grande. Tipografia mantida (Archivo + JetBrains Mono, não fazia parte da
+crítica do cliente). Logo real usado de verdade no cabeçalho
+(`Cabecalho.astro`, seção nova) e no rodapé (`RodapePT.astro`/
+`RodapeBR.astro`), com `<Image />` e alt = nome comercial.
+
+Herói em split de 2 colunas: texto à esquerda, ilustração simples de um
+aparelho de ar condicionado soltando ar (sem nenhuma legenda/cota, ao
+contrário da direção anterior) sobre um fundo em degradê frio/quente
+(`.fundo-termico`) à direita, em `Hero.astro`. Elemento-assinatura: um fio
+em degradê entre o azul do floco e o coral do sol (`.fio-termico` e
+`.fio-termico-h` em `src/styles/global.css`), reaproveitado nos cartões de
+serviço numerados (`Servicos.astro`, variante "numerada") — representa a
+dualidade frio/quente do logo de forma abstrata, nunca um ícone literal de
+floco de neve ou sol de desenho animado.
+
+Botão de WhatsApp flutuante (`BotaoWhatsAppFlutuante.astro`) visível em
+TODAS as larguras de tela (correção de uma falha real: antes só existia a
+barra inferior `BarraMobile.astro`, escondida no desktop com `md:hidden`,
+e o cliente notou a ausência de contacto rápido fixo no desktop). Usa o
+verde oficial do WhatsApp (`--color-whatsapp`, não é cor de marca do
+cliente), círculo no canto inferior direito, sempre visível ao rolar.
+
+Ver `previa-3-direcoes.html` para as 3 direções comparadas antes da
+escolha inicial do cliente (contexto histórico; a direção atual não faz
+parte dessa prévia).
 
 ## Pendências [PREENCHER] e máscaras `XXX` (não inventar; confirmar com o cliente antes de publicar)
 Lista detalhada, com a localização exata de cada marcador em

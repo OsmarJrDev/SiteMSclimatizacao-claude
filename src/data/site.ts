@@ -197,22 +197,26 @@ export const site: SiteData = {
     linkGoogleMaps: 'https://www.google.com/maps/search/?api=1&query=Quarteira+Algarve+Portugal',
   },
 
-  // Direção visual "Precisão Técnica" (docs/nichos.md): fundo grafite quase
-  // preto, azul aço para anotações e âmbar de sinalização só no botão/CTA.
-  // Ver src/styles/global.css para os tokens completos (inclui --color-painel,
-  // que não entra aqui por ser um tom de apoio, não uma cor de marca).
+  // Direção visual atual (4ª tentativa, definitiva): paleta clara, extraída
+  // por amostragem de pixel do logo real do cliente (src/assets/
+  // logo-ms-climatizacao.png), não inventada. Fundo branco levemente quente,
+  // ink escuro para texto, azul do floco (escurecido para passar AA sobre
+  // fundo claro) e degradê pêssego->coral do sol reservado ao botão/CTA.
+  // Ver src/styles/global.css para os tokens completos e a checagem de
+  // contraste (inclui --color-painel e --color-acento-inicio, que não
+  // entram aqui por serem tons de apoio, não cores de marca no schema).
   cores: {
-    base: '#ECEAE3',
-    superficie: '#14181A',
-    texto: '#C7CBC7',
-    destaque: '#9FC1D1',
-    // Contraste medido (WCAG, fórmula de luminância relativa): --color-acento
-    // com texto --color-superficie por cima = ~7,9:1 -> passa AA para
-    // qualquer tamanho. O par usado nos botões é sempre "texto escuro
-    // (superfície) sobre acento", e o acento nunca aparece como texto
-    // corrido. Ver nota em global.css.
-    acento: '#E8A33D',
-    linha: '#33393C',
+    base: '#1A1A1A',
+    superficie: '#FDFCFA',
+    texto: '#2A2D30',
+    destaque: '#146378',
+    // Contraste medido (WCAG, fórmula de luminância relativa): texto
+    // --color-base sobre --color-acento = ~9,6:1 -> passa AA (e AAA) para
+    // qualquer tamanho. O par usado nos botões é sempre "texto escuro (ink)
+    // sobre o degradê pêssego->coral (.botao-cta)", nunca o coral como
+    // texto corrido. Ver nota em global.css.
+    acento: '#FFAC8D',
+    linha: '#D6CEBF',
   },
 
   // Archivo cobre títulos e corpo (mesma família nas duas funções); a

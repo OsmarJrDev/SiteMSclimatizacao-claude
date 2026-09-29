@@ -1,0 +1,37 @@
+---
+// Cabecalho com o logo REAL do cliente (nao um logotipo textual generico):
+// src/assets/logo-ms-climatizacao.png, recortado e com o fundo branco
+// tratado (transparente) a partir do arquivo original fornecido pelo
+// cliente. Nao existia cabecalho nas versoes anteriores do site; a marca
+// so aparecia como texto no rodape. Estrutura simples e estatica (sem
+// sticky/scroll), sem nav (o site e uma landing de 1 pagina, sem menu):
+// so o logo (link para o topo) e um CTA secundario de WhatsApp, escondido
+// em telas muito pequenas porque o botao flutuante e a barra mobile ja
+// cobrem o contacto rapido nesse tamanho.
+import { Image } from 'astro:assets';
+import { site } from '../../data/site';
+import { linkWhatsApp } from '../../lib/endereco';
+import logo from '../../assets/logo-ms-climatizacao.png';
+
+const linkWpp = linkWhatsApp(site.nap.whatsappDigitos, 'Olá, vim pelo site');
+---
+
+<header class="border-b border-linha bg-superficie">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
+    <a href="/" class="flex items-center" aria-label={`${site.nap.nomeComercial} — página inicial`}>
+      <Image
+        src={logo}
+        alt={site.nap.nomeComercial}
+        width={44}
+        height={64}
+        class="h-14 w-auto"
+      />
+    </a>
+    <a
+      href={linkWpp}
+      class="botao-cta hidden items-center gap-2 rounded-[3px] px-5 py-2.5 text-sm font-semibold text-base transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:inline-flex"
+    >
+      Pedir orçamento
+    </a>
+  </div>
+</header>

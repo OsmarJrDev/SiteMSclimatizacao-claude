@@ -25,11 +25,11 @@ export default defineConfig({
 
   // Fonts API do Astro: os arquivos de fonte sao baixados e auto-hospedados
   // no build. Nunca usar <link> para fonts.googleapis.com.
-  // Par escolhido para a direção "Precisão Técnica" (docs/nichos.md):
-  // Archivo (títulos, com peso 800, e corpo, mesma família nas duas funções,
-  // ver --font-titulo em src/styles/global.css) + JetBrains Mono (rótulos:
-  // eyebrow, índices numerados dos serviços e anotações do diagrama do
-  // Hero, cssVariable --font-rotulo).
+  // Par mantido da direção visual anterior (não fazia parte da crítica do
+  // cliente, ver CLAUDE.md): Archivo (títulos, com peso 800, e corpo, mesma
+  // família nas duas funções, ver --font-titulo em src/styles/global.css) +
+  // JetBrains Mono (rótulos: eyebrow, índices numerados dos serviços,
+  // cssVariable --font-rotulo).
   fonts: [
     {
       provider: fontProviders.google(),

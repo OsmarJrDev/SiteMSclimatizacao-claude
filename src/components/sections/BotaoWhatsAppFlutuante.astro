@@ -1,0 +1,35 @@
+---
+// Botao circular fixo de WhatsApp, visivel em TODAS as larguras de tela
+// (correcao real pedida pelo cliente: a barra inferior de BarraMobile.astro
+// usa md:hidden, entao o unico contacto rapido some no desktop). Este botao
+// NAO tem md:hidden -- e o padrao que sites de concorrentes reais do nicho
+// usam (ex.: Oficina do Ar e Refrigeracao): circulo verde do WhatsApp,
+// canto inferior direito, sempre visivel ao rolar. No mobile fica acima da
+// barra inferior (bottom-24) para nao sobrepor; no desktop (md+), mais perto
+// do canto (bottom-8) porque a barra inferior nao existe la.
+import { site } from '../../data/site';
+import { linkWhatsApp } from '../../lib/endereco';
+
+const linkWpp = linkWhatsApp(site.nap.whatsappDigitos, 'Olá, vim pelo site');
+---
+
+<nav aria-label="Contacto rápido por WhatsApp">
+  <a
+    href={linkWpp}
+    aria-label="Falar pelo WhatsApp"
+    class="fixed bottom-24 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-whatsapp text-white shadow-[0_10px_28px_-10px_rgb(0_0_0/0.5)] transition-transform hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0 md:bottom-8 md:right-8 md:h-16 md:w-16"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-7 w-7 md:h-8 md:w-8"
+      fill="currentColor"
+      role="presentation"
+      aria-hidden="true"
+    >
+      <path
+        d="M12.04 2c-5.52 0-10 4.48-10 10 0 1.76.46 3.48 1.33 5L2 22l5.15-1.35a9.96 9.96 0 0 0 4.89 1.27h.01c5.52 0 10-4.48 10-10s-4.48-10-10.01-10Zm0 18.15h-.01a8.15 8.15 0 0 1-4.16-1.14l-.3-.18-3.09.81.82-3.01-.19-.31a8.15 8.15 0 1 1 6.93 3.83Zm4.48-6.1c-.25-.12-1.45-.72-1.67-.8-.22-.08-.39-.12-.55.13-.16.24-.63.79-.78.96-.14.16-.29.18-.53.06-.25-.12-1.04-.38-1.98-1.22-.73-.65-1.23-1.46-1.37-1.7-.14-.24-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.24.25-.41.08-.16.04-.31-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.42-.55-.42-.14-.01-.31-.01-.47-.01-.16 0-.43.06-.66.31-.22.24-.86.84-.86 2.05 0 1.2.88 2.37 1 2.53.12.16 1.73 2.64 4.2 3.7.59.25 1.04.4 1.4.52.59.19 1.12.16 1.55.1.47-.07 1.45-.59 1.65-1.17.21-.57.21-1.06.14-1.17-.06-.1-.22-.16-.47-.28Z"
+      />
+    </svg>
+  </a>
+</nav>

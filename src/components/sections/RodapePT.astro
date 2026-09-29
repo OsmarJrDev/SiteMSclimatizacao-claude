@@ -4,7 +4,9 @@
 // Livro de Reclamacoes Eletronico em todas as paginas, entidade RAL,
 // Politica de Privacidade e Cookies. Se site.legalPT nao existir ainda,
 // mostra [PREENCHER] em vez de inventar o dado.
+import { Image } from 'astro:assets';
 import { site } from '../../data/site';
+import logo from '../../assets/logo-ms-climatizacao.png';
 
 const legal = site.legalPT;
 const registros = site.registrosProfissionaisPT ?? [];
@@ -15,7 +17,8 @@ const ano = new Date().getFullYear();
   <div class="mx-auto max-w-6xl px-6 py-12">
     <div class="grid gap-8 md:grid-cols-3">
       <div>
-        <p class="font-titulo text-lg font-semibold text-base">{site.nap.nomeComercial}</p>
+        <Image src={logo} alt={site.nap.nomeComercial} width={38} height={55} class="h-12 w-auto" />
+        <p class="mt-3 font-titulo text-lg font-semibold text-base">{site.nap.nomeComercial}</p>
         <p class="mt-2 text-sm text-destaque">{legal?.moradaCompleta ?? '[PREENCHER: morada completa]'}</p>
         <p class="mt-1 text-sm text-destaque">{site.nap.telefone} · {site.nap.email}</p>
       </div>

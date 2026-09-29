@@ -4,7 +4,9 @@ import { Font } from 'astro:assets';
 import { site } from '../data/site';
 import Seo from '../components/seo/Seo.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import Cabecalho from '../components/sections/Cabecalho.astro';
 import BarraMobile from '../components/sections/BarraMobile.astro';
+import BotaoWhatsAppFlutuante from '../components/sections/BotaoWhatsAppFlutuante.astro';
 import RodapeBR from '../components/sections/RodapeBR.astro';
 import RodapePT from '../components/sections/RodapePT.astro';
 
@@ -47,12 +49,14 @@ const lang = site.mercado === 'PT' ? 'pt-PT' : 'pt-BR';
       site.demo && (
         <p
           role="status"
-          class="bg-acento px-4 py-2 text-center text-sm font-semibold text-superficie"
+          class="bg-acento px-4 py-2 text-center text-sm font-semibold text-base"
         >
           {site.avisoDemo}
         </p>
       )
     }
+
+    <Cabecalho />
 
     <main class="flex-1 pb-24 md:pb-0">
       <slot />
@@ -61,5 +65,6 @@ const lang = site.mercado === 'PT' ? 'pt-PT' : 'pt-BR';
     {site.mercado === 'PT' ? <RodapePT /> : <RodapeBR />}
 
     <BarraMobile />
+    <BotaoWhatsAppFlutuante />
   </body>
 </html>
