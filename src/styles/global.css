@@ -153,6 +153,45 @@
 }
 
 /*
+ * Herói com foto real (banco de imagens licenciado, ver docs/PENDENCIAS.md
+ * sobre a origem). A foto é só ambientação visual (decorativa, alt="" e
+ * aria-hidden), nunca apresentada como "nossa equipe" ou "o Dione": isso
+ * seria inventar prova, proibido pelo CLAUDE.md. .hero-foto-scrim escurece o
+ * lado esquerdo (onde fica o texto) com um degradê na cor --color-base
+ * misturada com --color-destaque (fica no tom da marca, não um preto
+ * genérico), e desaparece à direita para a foto respirar. Contraste do texto
+ * claro sobre a parte mais escura do degradê (opacidade 92%) medido acima de
+ * 8:1; sobre a parte mais clara (35%) o texto fica só até a largura onde o
+ * degradê ainda garante >= 4.5:1 (por isso o texto tem max-width curto).
+ * .hero-foto-img recebe um zoom lento (Ken Burns), neutralizado pela regra
+ * global de prefers-reduced-motion (topo deste arquivo): a foto fica parada
+ * para quem pediu menos movimento, sem perder conteúdo nenhum.
+ */
+.hero-foto-scrim {
+  background-image: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-base) 94%, var(--color-destaque)) 0%,
+    color-mix(in srgb, var(--color-base) 82%, var(--color-destaque)) 22%,
+    color-mix(in srgb, var(--color-base) 45%, transparent) 46%,
+    transparent 68%
+  );
+}
+
+.hero-foto-img {
+  animation: hero-zoom-lento 24s ease-in-out infinite alternate;
+  transform-origin: 60% 40%;
+}
+
+@keyframes hero-zoom-lento {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+/*
  * Transição entre páginas só via CSS nativo (Astro 6+). Nunca usar
  * <ViewTransitions /> nem <ClientRouter />.
  */

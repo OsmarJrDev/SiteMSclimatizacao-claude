@@ -1,17 +1,19 @@
 ---
 // Duas variantes estruturais (nao so de cor):
-// - "editorial": split de 2 colunas (texto + ilustracao simples de um
-//   aparelho de ar condicionado soltando ar, sobre o fundo em degrade
-//   frio/quente .fundo-termico), elemento-assinatura da direção atual
-//   (.fio-termico, em src/styles/global.css) como divisor vertical ao lado
-//   do texto. Substitui o diagrama técnico com anotações da direção anterior
-//   ("Precisão Técnica"), confuso para o cliente ("parece placa de vídeo
-//   com varal"): a ilustração agora não tem nenhuma legenda/cota, só o
-//   aparelho e o fluxo de ar, para ser reconhecível em poucos segundos.
+// - "editorial": foto real de fundo (banco de imagens licenciado Pexels,
+//   técnico inspecionando unidade exterior; ver nota de origem/licença em
+//   PENDENCIAS.md) cobrindo a seção inteira, com .hero-foto-scrim escurecendo
+//   o lado do texto (ver src/styles/global.css) e um zoom lento (Ken Burns,
+//   neutralizado por prefers-reduced-motion). Foto é decorativa (alt="",
+//   aria-hidden), nunca apresentada como o técnico real da empresa. Substitui
+//   a ilustração SVG e o diagrama técnico das direções anteriores: o pedido
+//   do cliente foi por uma foto real, não desenho, "parece feito no Paint".
 // - "cartao": titulo em coluna unica com cartao de horario sobreposto.
 // Botões usam a classe .botao-cta (degradê pêssego->coral do sol do logo
 // real) com texto text-base (ink escuro): ver nota de contraste em
 // src/styles/global.css.
+import { Image } from 'astro:assets';
+import fotoHero from '../../assets/hero-tecnico.jpg';
 import { site } from '../../data/site';
 import { cidadeDoEndereco, linkWhatsApp } from '../../lib/endereco';
 
@@ -29,21 +31,34 @@ const horarioDeHoje = site.horarios[new Date().getDay() === 0 ? 6 : new Date().g
 
 {
   variante === 'editorial' ? (
-    <section class="border-b border-linha bg-superficie" aria-labelledby="hero-titulo">
-      <div class="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[auto_1.1fr_0.9fr] md:gap-10 md:py-24">
-        <div class="hidden w-2 fio-termico md:block" aria-hidden="true" />
+    <section class="relative flex min-h-[600px] flex-col overflow-hidden border-b border-linha md:min-h-[680px]" aria-labelledby="hero-titulo">
+      <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
+        <Image
+          src={fotoHero}
+          alt=""
+          class="hero-foto-img h-full w-full object-cover object-[center_18%]"
+          widths={[640, 960, 1280, 1920, 2400]}
+          sizes="100vw"
+          loading="eager"
+          fetchpriority="high"
+          format="avif"
+          quality={48}
+        />
+        <div class="hero-foto-scrim absolute inset-0" />
+      </div>
+      <div class="relative mx-auto mt-auto w-full max-w-6xl px-6 py-10 md:py-14">
         <div class="max-w-[42ch]">
-          <p class="flex items-center gap-2 font-rotulo text-xs font-medium uppercase tracking-[0.1em] text-destaque">
-            <span class="h-px w-6 bg-destaque" aria-hidden="true" />
+          <p class="flex items-center gap-2 font-rotulo text-xs font-medium uppercase tracking-[0.1em] text-acento-inicio">
+            <span class="h-px w-6 bg-acento-inicio" aria-hidden="true" />
             {site.nicho} · {cidade}
           </p>
           <h1
             id="hero-titulo"
-            class="mt-4 font-titulo text-4xl font-extrabold leading-[1.06] tracking-tight text-base md:text-6xl"
+            class="mt-4 font-titulo text-4xl font-extrabold leading-[1.06] tracking-tight text-superficie [text-shadow:0_2px_16px_rgb(0_0_0/0.35)] md:text-6xl"
           >
             {chamada}
           </h1>
-          <p class="mt-5 max-w-[42ch] text-lg text-texto/85">{subtitulo}</p>
+          <p class="mt-5 max-w-[40ch] text-lg text-superficie/90">{subtitulo}</p>
           <div class="mt-8 flex flex-wrap items-center gap-4">
             <a
               href={linkWpp}
@@ -52,44 +67,11 @@ const horarioDeHoje = site.horarios[new Date().getDay() === 0 ? 6 : new Date().g
               Pedir orçamento pelo WhatsApp
             </a>
             {horarioDeHoje.abertura && (
-              <p class="font-rotulo text-sm text-destaque">
+              <p class="font-rotulo text-sm text-acento-inicio">
                 Hoje: {horarioDeHoje.abertura} às {horarioDeHoje.fechamento}
               </p>
             )}
           </div>
-        </div>
-        <div class="fundo-termico rounded-lg border border-linha p-6" aria-hidden="true">
-          <svg
-            viewBox="0 0 300 260"
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-auto w-full"
-            role="presentation"
-          >
-            <!--
-              Ilustração simples do aparelho (unidade interior de split) e do
-              ar que ele solta, sem nenhuma anotação/cota (diferente da
-              direção anterior): o objetivo é ser reconhecível como "ar
-              condicionado" imediatamente, não um desenho técnico. Corpo
-              claro com contorno escuro, grelha e luz de indicação nas cores
-              da marca, fluxo de ar em três curvas com opacidade decrescente
-              (sensação de brisa/profundidade) e pequenas partículas soltas,
-              tudo só com curvas e círculos: nada de floco de neve nem sol
-              desenhados de forma literal.
-            -->
-            <rect x="45" y="54" width="210" height="58" rx="20" fill="var(--color-superficie)" stroke="var(--color-base)" stroke-width="3" />
-            <circle cx="226" cy="70" r="6" fill="var(--color-acento)" />
-            <rect x="66" y="96" width="46" height="6" rx="3" fill="var(--color-destaque)" opacity="0.85" />
-            <rect x="122" y="96" width="46" height="6" rx="3" fill="var(--color-destaque)" opacity="0.6" />
-            <rect x="178" y="96" width="46" height="6" rx="3" fill="var(--color-destaque)" opacity="0.35" />
-
-            <path d="M95 118 C 72 150, 116 172, 92 208" fill="none" stroke="var(--color-destaque)" stroke-width="6" stroke-linecap="round" opacity="0.9" />
-            <path d="M152 118 C 129 152, 175 174, 150 214" fill="none" stroke="var(--color-destaque)" stroke-width="6" stroke-linecap="round" opacity="0.6" />
-            <path d="M209 118 C 186 150, 230 172, 206 208" fill="none" stroke="var(--color-destaque)" stroke-width="6" stroke-linecap="round" opacity="0.35" />
-
-            <circle cx="108" cy="150" r="4" fill="var(--color-destaque)" opacity="0.5" />
-            <circle cx="168" cy="160" r="3" fill="var(--color-destaque)" opacity="0.4" />
-            <circle cx="196" cy="140" r="3.5" fill="var(--color-destaque)" opacity="0.3" />
-          </svg>
         </div>
       </div>
     </section>
