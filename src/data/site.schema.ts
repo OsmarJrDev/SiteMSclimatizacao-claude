@@ -55,6 +55,14 @@ export interface Servico {
   slug: string;
   nome: string;
   descricao: string;
+  /**
+   * Lista curta de passos/itens reais de um servico (ex.: etapas de uma
+   * manutencao preventiva). Opcional: so preencher com passos confirmados
+   * pelo cliente ou por publicacao real da propria empresa (registrar a
+   * fonte em comentario ao lado do array em site.ts). Nao inventar passos
+   * genericos so para preencher o layout.
+   */
+  passos?: string[];
   /** Preco publico so deve ser mostrado se a norma do nicho permitir (ver docs/nichos.md). */
   precoAPartir?: string;
   /**

@@ -9,11 +9,11 @@ const registros = site.registrosProfissionaisBR ?? [];
 const ano = new Date().getFullYear();
 ---
 
-<footer class="border-t border-linha bg-base text-superficie">
+<footer class="border-t border-linha bg-painel text-texto">
   <div class="mx-auto max-w-6xl px-6 py-12">
     <div class="grid gap-8 md:grid-cols-3">
       <div>
-        <p class="font-titulo text-lg font-semibold">{site.nap.nomeComercial}</p>
+        <p class="font-titulo text-lg font-semibold text-base">{site.nap.nomeComercial}</p>
         <p class="mt-2 text-sm text-destaque">{site.nap.enderecoCurto}</p>
         <p class="mt-1 text-sm text-destaque">{site.nap.telefone} · {site.nap.email}</p>
       </div>

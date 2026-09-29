@@ -23,7 +23,7 @@ export const site: SiteData = {
     // cidadeDoEndereco() procura um trecho com " - " e usa a parte antes do
     // traço como cidade do H1. Isso garante "Quarteira" (zona confirmada
     // pelo cliente) no título, sem inventar morada nem código postal.
-    enderecoCurto: '[PREENCHER: morada completa e código postal], Quarteira - Algarve',
+    enderecoCurto: '[PREENCHER: morada completa], XXXX-XXX, Quarteira - Algarve',
     telefone: '+351 936 996 145',
     whatsappDigitos: '351936996145',
     email: '[PREENCHER: e-mail profissional da MS Climatização]',
@@ -47,7 +47,9 @@ export const site: SiteData = {
 
   // Os dois serviços abaixo são um INDÍCIO visual das publicações no
   // Instagram/Facebook da empresa (instalação e manutenção/limpeza
-  // aparecem nos posts), NÃO uma lista confirmada pelo cliente.
+  // aparecem nos posts), NÃO uma lista confirmada pelo cliente. Isso vale
+  // para a EXISTÊNCIA de cada serviço como oferta formal (podem existir
+  // outros, como reparação ou bombas de calor, ainda não confirmados).
   // "confirmado: false" (campo próprio deste cliente, ver site.schema.ts)
   // faz Servicos.astro mostrar "(a confirmar)" ao lado de cada nome.
   servicos: [
@@ -61,8 +63,20 @@ export const site: SiteData = {
     {
       slug: 'manutencao-limpeza',
       nome: 'Manutenção e limpeza',
+      // Diferente do "confirmado: false" acima (que é sobre a EXISTÊNCIA do
+      // serviço como oferta formal), o CONTEÚDO abaixo (descrição e passos)
+      // é um fato confirmado: passo a passo real publicado pela própria MS
+      // Climatização. Fonte: post "Conheça nossos serviços", Instagram
+      // @msclimatizacaopt.
       descricao:
-        'Manutenção periódica e limpeza de aparelhos de ar condicionado, reduzindo falhas e problemas de qualidade do ar associados à falta de manutenção.',
+        'Manutenção preventiva periódica, com verificação completa do aparelho: limpeza dos filtros de ar, verificação do sistema elétrico e do consumo, verificação das serpentinas do evaporador e do condensador, verificação do isolamento térmico e limpeza das bandejas coletoras de água.',
+      passos: [
+        'Limpeza dos filtros de ar',
+        'Verificação do sistema elétrico e do consumo (tensão, corrente, entre outros)',
+        'Verificação das serpentinas do evaporador e do condensador',
+        'Verificação do isolamento térmico',
+        'Limpeza das bandejas coletoras de água',
+      ],
       confirmado: false,
     },
   ],
@@ -126,8 +140,14 @@ export const site: SiteData = {
 
   legalPT: {
     denominacao: '[PREENCHER: denominação social exata]',
-    nif: '[PREENCHER: NIF]',
-    moradaCompleta: '[PREENCHER: morada completa e código postal]',
+    // NIF de Portugal: sempre 9 dígitos seguidos, sem espaço nem traço.
+    // "XXXXXXXXX" é a máscara no formato certo, não um valor real (ver
+    // PENDENCIAS.md e scripts/validar-conteudo.mjs).
+    nif: 'XXXXXXXXX',
+    // Morada (rua e número) não tem formato fixo nacional, então continua
+    // "[PREENCHER". Código postal de Portugal e sempre 4 dígitos, traço,
+    // 3 dígitos: "XXXX-XXX" é a máscara nesse formato (ver PENDENCIAS.md).
+    moradaCompleta: '[PREENCHER: morada completa], XXXX-XXX',
     registoComercial: '[PREENCHER: registo comercial, conservatória e número]',
     // Pesquisado (WebSearch) e confirmado em fonte oficial: a base de dados
     // de entidades de resolução de litígios de consumo da Comissão Europeia
@@ -177,26 +197,35 @@ export const site: SiteData = {
     linkGoogleMaps: 'https://www.google.com/maps/search/?api=1&query=Quarteira+Algarve+Portugal',
   },
 
+  // Direção visual "Precisão Técnica" (docs/nichos.md): fundo grafite quase
+  // preto, azul aço para anotações e âmbar de sinalização só no botão/CTA.
+  // Ver src/styles/global.css para os tokens completos (inclui --color-painel,
+  // que não entra aqui por ser um tom de apoio, não uma cor de marca).
   cores: {
-    base: '#123C44',
-    superficie: '#F4EFE4',
-    texto: '#1C2321',
-    destaque: '#CFE3DC',
-    // Ajustado de um terracota mais vivo (perto de #C1502E) para este tom
-    // mais profundo: contra --color-superficie o contraste é ~5,4:1, e o
-    // par usado nos botões é sempre "texto claro (superfície) sobre acento"
-    // (nunca --color-texto sobre --color-acento). Ver nota em global.css.
-    acento: '#A83E22',
-    linha: '#D8CBB3',
+    base: '#ECEAE3',
+    superficie: '#14181A',
+    texto: '#C7CBC7',
+    destaque: '#9FC1D1',
+    // Contraste medido (WCAG, fórmula de luminância relativa): --color-acento
+    // com texto --color-superficie por cima = ~7,9:1 -> passa AA para
+    // qualquer tamanho. O par usado nos botões é sempre "texto escuro
+    // (superfície) sobre acento", e o acento nunca aparece como texto
+    // corrido. Ver nota em global.css.
+    acento: '#E8A33D',
+    linha: '#33393C',
   },
 
+  // Archivo cobre títulos e corpo (mesma família nas duas funções); a
+  // segunda família da direção, JetBrains Mono, é só para rótulos (eyebrow,
+  // índices numerados, anotações do diagrama) e fica em --font-rotulo
+  // (global.css), fora deste par de 2 famílias documentado aqui.
   fontes: {
-    titulo: 'Space Grotesk',
-    corpo: 'Instrument Sans',
+    titulo: 'Archivo',
+    corpo: 'Archivo',
   },
 
   seo: {
-    tituloPadrao: 'MS Climatização — Ar condicionado e climatização em Quarteira, Algarve',
+    tituloPadrao: 'MS Climatização: ar condicionado e climatização em Quarteira, Algarve',
     descricaoPadrao:
       'MS Climatização: instalação e manutenção de ar condicionado no Algarve, com atuação específica em Quarteira. Contacto direto pelo WhatsApp ou por chamada.',
     ogImagem: 'og.jpg',

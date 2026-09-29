@@ -3,61 +3,137 @@
 /*
  * Tokens de design. Único lugar com cores, fontes, raio e sombra do site.
  * Nada de hex solto em componente: use sempre as classes utilitárias do
- * Tailwind geradas a partir destes tokens (bg-base, text-acento, font-titulo
+ * Tailwind geradas a partir destes tokens (bg-base, text-destaque, font-titulo
  * etc). Ao trocar de cliente, troque só os valores aqui e em src/data/site.ts.
  */
 @theme {
   /*
-   * Direção visual própria da MS Climatização (docs/nichos.md, nicho
-   * "Climatização e Ar Condicionado"): "Sombra e cal", inspirada na
-   * arquitetura real do Algarve (parede caiada, telha de barro, sombra
-   * como forma de conforto térmico), sem clichê de floco de neve, sol
-   * genérico ou gradiente.
+   * Direção visual da MS Climatização (docs/nichos.md, nicho "Climatização e
+   * Ar Condicionado"): "Precisão Técnica", inspirada no desenho de
+   * engenharia e na folha técnica de quem instala e calibra equipamento.
+   * Fundo grafite quase preto, azul aço para anotações e âmbar de
+   * sinalização reservado ao contacto (nunca usado como texto corrido).
+   * Ver docs/nichos.md e a prévia em previa-3-direcoes.html (Direção 1).
    */
-  --color-base: #123c44; /* azulejo profundo / sombra e frescor */
-  --color-superficie: #f4efe4; /* cal quente, parede caiada */
-  --color-texto: #1c2321; /* carvão, quase preto */
-  --color-destaque: #cfe3dc; /* verde-água claro (azulejo), ~8,9:1 sobre --color-base */
+  --color-superficie: #14181a; /* grafite quase preto, fundo principal do site */
   /*
-   * Terracota queimada (telha de barro do Algarve). Contraste medido
-   * (WCAG, fórmula de luminância relativa):
-   *   --color-acento sobre --color-superficie (ou --color-acento como texto
-   *   sobre --color-superficie) = ~5,4:1 -> passa AA para qualquer tamanho.
-   *   --color-texto sobre --color-acento = ~2,6:1 -> NÃO passa AA.
-   * Por isso, todo botão com fundo --color-acento usa texto
-   * --color-superficie (claro), nunca --color-texto. Ver Hero.astro,
-   * _ContatoInfo.astro, BarraMobile.astro e 404.astro.
+   * Ink claro: cor de texto dos títulos/rótulos (classe text-base) sobre o
+   * fundo --color-superficie. Também funciona como fundo (classe bg-base)
+   * nas poucas faixas de contraste que usam texto --color-superficie por
+   * cima (par inverso e proposital: par-a-par com --color-superficie).
    */
-  --color-acento: #a83e22;
-  --color-linha: #d8cbb3; /* areia, linhas e bordas */
+  --color-base: #eceae3;
+  --color-texto: #c7cbc7; /* cinza claro, corpo de texto sobre --color-superficie */
+  /*
+   * Azul aço: cor das anotações e rótulos (estilo desenho técnico), nunca
+   * decorativa sozinha. Contraste medido (WCAG, fórmula de luminância
+   * relativa): --color-destaque sobre --color-superficie = ~9,1:1, e sobre
+   * --color-painel = ~8,4:1 -> passa AA (e AAA) para qualquer tamanho.
+   */
+  --color-destaque: #9fc1d1;
+  /*
+   * Âmbar de sinalização. Contraste medido: --color-acento com texto
+   * --color-superficie por cima = ~7,9:1 -> passa AA (e quase AAA) para
+   * qualquer tamanho. Mesmo assim, por identidade da direção "Precisão
+   * Técnica" (docs/nichos.md), o âmbar SÓ aparece em botão/CTA (fundo do
+   * botão), nunca como texto corrido nem como detalhe decorativo solto:
+   * todo botão com fundo --color-acento usa texto --color-superficie.
+   */
+  --color-acento: #e8a33d;
+  --color-linha: #33393c; /* linhas, bordas e filetes */
+  /*
+   * Painel: um grafite ligeiramente mais claro que --color-superficie, para
+   * cartões e faixas de contraste que precisam continuar escuras (rodapé,
+   * faixa de estatísticas, cartão do diagrama do Hero, cartões de serviço).
+   * Não faz parte do CoresTema (site.schema.ts) por ser um tom de apoio, não
+   * uma cor de marca -- mesmo padrão de --radius-cartao/--shadow-cartao
+   * abaixo, que também não entram no schema.
+   */
+  --color-painel: #1d2225;
 
   /*
-   * O valor real (com a familia baixada pela Fonts API e o fallback
-   * otimizado) é injetado em runtime pelo componente <Font /> no
-   * src/layouts/Base.astro. O valor abaixo é só o fallback de build.
+   * Os valores reais (com a familia baixada pela Fonts API e o fallback
+   * otimizado) são injetados em runtime pelo componente <Font /> no
+   * src/layouts/Base.astro. Os valores abaixo são só o fallback de build.
+   * Par escolhido para a direção "Precisão Técnica" (docs/nichos.md):
+   * Archivo (títulos e corpo, único lugar com peso 800 nos títulos) +
+   * JetBrains Mono (rótulos: eyebrow, índices numerados, anotações).
    */
-  --font-titulo: 'Space Grotesk Fallback', sans-serif;
-  --font-corpo: 'Instrument Sans Fallback', sans-serif;
+  --font-corpo: 'Archivo Fallback', sans-serif;
+  --font-titulo: var(--font-corpo); /* mesma família do corpo, só varia o peso */
+  --font-rotulo: 'JetBrains Mono Fallback', monospace;
 
   --radius-cartao: 0.75rem;
-  --shadow-cartao: 0 12px 32px -16px rgb(28 35 33 / 0.35);
+  --shadow-cartao: 0 12px 32px -16px rgb(0 0 0 / 0.55);
 }
 
 /*
- * Elemento-assinatura desta direção: uma grelha de lâminas horizontais,
- * referência real à persiana/grelha de ventilação da arquitetura do
- * Algarve (e, por extensão, às lâminas de um difusor de ar condicionado),
- * em vez de um ícone de floco de neve, sol ou gradiente. Usado como barra
- * vertical decorativa no Hero (variante "editorial").
+ * Elemento-assinatura da direção "Precisão Técnica": linhas de cota e
+ * anotação, como as usadas em desenhos técnicos e plantas para marcar uma
+ * medida (tracinho + cota corrida), em vez de um ícone de floco de neve, sol
+ * genérico ou gradiente. Duas variantes, ambas só CSS (sem JavaScript nem
+ * SVG externo):
+ * - .linha-cota: cota vertical, usada como barra decorativa ao lado do
+ *   texto do Hero (variante "editorial").
+ * - .linha-cota-h: cota horizontal, reaproveitada no topo de cada cartão
+ *   de Servicos.astro (variante "numerada").
  */
-.grelha-assinatura {
+.linha-cota {
+  position: relative;
   background-image: repeating-linear-gradient(
     to bottom,
-    var(--color-acento) 0px,
-    var(--color-acento) 4px,
-    transparent 4px,
-    transparent 13px
+    var(--color-destaque) 0px,
+    var(--color-destaque) 1px,
+    transparent 1px,
+    transparent 12px
   );
+  background-position: left top;
+  background-repeat: repeat-y;
+  background-size: 100% 12px;
+}
+.linha-cota::before,
+.linha-cota::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 8px;
+  height: 1px;
+  background: var(--color-destaque);
+}
+.linha-cota::before {
+  top: 0;
+}
+.linha-cota::after {
+  bottom: 0;
+}
+
+.linha-cota-h {
+  position: relative;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--color-linha) 0px,
+    var(--color-linha) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+  background-position: top left;
+  background-repeat: repeat-x;
+  background-size: 12px 100%;
+}
+.linha-cota-h::before,
+.linha-cota-h::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 8px;
+  background: var(--color-linha);
+}
+.linha-cota-h::before {
+  left: 0;
+}
+.linha-cota-h::after {
+  right: 0;
 }
 
 /*

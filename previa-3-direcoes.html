@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>MS Climatização — prévia de 3 direções visuais</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Archivo:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Figtree:wght@400;500;600;700&family=Bricolage+Grotesque:wght@400;600;800&family=Lora:ital,wght@0,400;0,500;1,500&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --page-bg: #e9e6df;
+    --page-ink: #201d19;
+    --page-muted: #58524a;
+    --page-line: #cfc9bd;
+    --page-accent: #8a5a3a;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--page-ink);
+    font-family: Archivo, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img, svg { max-width: 100%; display: block; }
+
+  a { color: inherit; }
+
+  .wrap {
+    max-width: 1300px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 3rem);
+  }
+
+  /* ---------- cabeçalho geral da prévia ---------- */
+  .topo {
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 4vw, 2.5rem);
+    border-bottom: 1px solid var(--page-line);
+  }
+  .topo .etiqueta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--page-accent);
+    margin: 0 0 0.75rem;
+  }
+  .topo h1 {
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    line-height: 1.15;
+    margin: 0 0 0.9rem;
+    max-width: 22ch;
+  }
+  .topo p {
+    max-width: 62ch;
+    line-height: 1.6;
+    color: var(--page-muted);
+    font-size: 0.98rem;
+  }
+  .topo p + p { margin-top: 0.6rem; }
+
+  .nav-direcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+  .nav-direcoes a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--page-ink);
+    background: var(--page-bg);
+  }
+  .nav-direcoes a:hover, .nav-direcoes a:focus-visible {
+    background: var(--page-ink);
+    color: var(--page-bg);
+  }
+
+  /* ---------- referência: direção já construída ---------- */
+  .referencia {
+    margin-block: clamp(1.5rem, 4vw, 2.5rem);
+    padding: 1.1rem 1.3rem;
+    border: 1px dashed var(--page-accent);
+    border-radius: 10px;
+    background: #f4f1ea;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--page-muted);
+  }
+  .referencia strong { color: var(--page-ink); }
+  .referencia .swatches { display: inline-flex; gap: 5px; vertical-align: middle; margin-inline: 0.4rem; }
+  .referencia .sw { width: 14px; height: 14px; border-radius: 3px; display: inline-block; border: 1px solid rgba(0,0,0,.15); }
+
+  /* ---------- tabela-resumo ---------- */
+  .resumo {
+    margin-block: clamp(2rem, 5vw, 3rem);
+  }
+  .resumo h2 {
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--page-muted);
+    margin-bottom: 1rem;
+  }
+  .resumo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1px;
+    background: var(--page-line);
+    border: 1px solid var(--page-line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .resumo-card {
+    background: var(--page-bg);
+    padding: 1.1rem 1.2rem 1.3rem;
+  }
+  .resumo-card h3 { margin: 0 0 0.5rem; font-size: 1rem; }
+  .resumo-card p { margin: 0.25rem 0; font-size: 0.85rem; color: var(--page-muted); line-height: 1.5; }
+  .resumo-card .paleta { display: flex; gap: 6px; margin: 0.6rem 0; }
+  .resumo-card .paleta span { width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,.15); }
+
+  /* ================================================================
+     SEÇÃO GENÉRICA DE CADA DIREÇÃO (moldura de comparação)
+     ================================================================ */
+  .direcao { border-bottom: 1px solid var(--page-line); }
+  .direcao-meta {
+    max-width: 1300px;
+    margin-inline: auto;
+    padding: clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 3rem) clamp(1rem, 3vw, 1.5rem);
+  }
+  .direcao-meta .numero {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    color: var(--page-accent);
+    letter-spacing: 0.08em;
+  }
+  .direcao-meta h2 {
+    font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+    margin: 0.3rem 0 0.6rem;
+  }
+  .direcao-meta p {
+    max-width: 68ch;
+    line-height: 1.6;
+    color: var(--page-muted);
+    font-size: 0.95rem;
+  }
+
+  .mock-frame {
+    max-width: 1300px;
+    margin: 0 auto clamp(2.5rem, 6vw, 4rem);
+    padding-inline: clamp(1rem, 4vw, 3rem);
+  }
+  .mock-chrome {
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -25px rgba(0,0,0,.35);
+    border: 1px solid rgba(0,0,0,.12);
+  }
+  .mock-barra {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0.55rem 0.8rem;
+    background: #d8d3c8;
+  }
+  .mock-barra i {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #b7b0a1;
+    display: inline-block;
+  }
+  .mock-barra span {
+    margin-left: 0.6rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    color: #6b6455;
+  }
+
+  /* =========================================================
+     DIREÇÃO 1 — PRECISÃO TÉCNICA
+     ========================================================= */
+  .dir-tecnica {
+    --bg: #14181a;
+    --panel: #1d2225;
+    --ink: #ecEAE3;
+    --steel: #9fc1d1;
+    --steel-dim: #4d6875;
+    --amber: #e8a33d;
+    --line: #33393c;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .dir-tecnica .mock-barra { background: #0c0e0f; }
+  .dir-tecnica .mock-barra span { color: #6c7a80; }
+  .dir-tecnica .mock-viewport {
+    background: var(--bg);
+    font-family: Archivo, sans-serif;
+    padding: clamp(1.5rem, 5vw, 3.2rem) clamp(1.2rem, 5vw, 3rem);
+  }
+  .dir-tecnica .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--steel);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.4rem;
+  }
+  .dir-tecnica .eyebrow::before {
+    content: "";
+    width: 22px; height: 1px;
+    background: var(--steel);
+    display: inline-block;
+  }
+  .dir-tecnica .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  .dir-tecnica h1 {
+    font-family: Archivo, sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.9rem, 3.6vw, 3.1rem);
+    line-height: 1.08;
+    margin: 0 0 1rem;
+    letter-spacing: -0.01em;
+  }
+  .dir-tecnica .subtitulo {
+    font-size: clamp(0.95rem, 1.3vw, 1.05rem);
+    color: #c7cbc7;
+    max-width: 46ch;
+    line-height: 1.6;
+    margin: 0 0 1.6rem;
+  }
+  .dir-tecnica .cta-row { display: flex; flex-wrap: wrap; gap: 0.9rem; align-items: center; margin-bottom: 1.6rem; }
+  .dir-tecnica .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--amber);
+    color: #16130a;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 0.85rem 1.4rem;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .dir-tecnica .tel {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    color: var(--steel);
+  }
+  .dir-tecnica .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    color: var(--steel-dim);
+    border-top: 1px solid var(--line);
+    padding-top: 0.9rem;
+  }
+  .dir-tecnica .trust-row b { color: var(--steel); font-weight: 500; }
+
+  .dir-tecnica .diagrama {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.2rem;
+  }
+  .dir-tecnica .diagrama svg { width: 100%; height: auto; }
+  .dir-tecnica .diagrama text {
+    font-family: "JetBrains Mono", monospace;
+    fill: var(--steel);
+  }
+
+  .dir-tecnica .servicos {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--line);
+    padding-top: clamp(1.5rem, 4vw, 2.2rem);
+  }
+  .dir-tecnica .servicos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .dir-tecnica .spec-card {
+    background: var(--bg);
+    padding: 1.3rem 1.4rem;
+  }
+  .dir-tecnica .spec-card .idx {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--amber);
+    font-size: 0.78rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .dir-tecnica .spec-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+  .dir-tecnica .spec-card p { margin: 0; font-size: 0.85rem; color: #b7bcb9; line-height: 1.55; }
+
+  @media (max-width: 760px) {
+    .dir-tecnica .hero-grid { grid-template-columns: 1fr !important; }
+    .dir-tecnica .servicos-grid { grid-template-columns: 1fr !important; }
+  }
+
+  /* =========================================================
+     DIREÇÃO 2 — AR PURO
+     ========================================================= */
+  .dir-ar {
+    --bg: #f7f9f5;
+    --ink: #17231d;
+    --muted: #3e5148;
+    --citrus: #e7b537;
+    --line: #d7ddd2;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  .dir-ar .mock-barra { background: #e2e6dd; }
+  .dir-ar .mock-barra span { color: #5c6a60; }
+  .dir-ar .mock-viewport {
+    font-family: Figtree, sans-serif;
+    padding: clamp(2rem, 7vw, 4.5rem) clamp(1.2rem, 6vw, 4rem);
+    position: relative;
+    overflow: hidden;
+  }
+  .dir-ar .eyebrow {
+    font-family: Figtree, sans-serif;
+    font-weight: 600;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.6rem;
+  }
+  .dir-ar .hero-texto { max-width: 46rem; position: relative; }
+  .dir-ar .brisa {
+    position: absolute;
+    right: -4%;
+    top: 8%;
+    width: 46%;
+    max-width: 380px;
+    opacity: 0.9;
+    z-index: 0;
+  }
+  .dir-ar h1 {
+    font-family: Fraunces, serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: clamp(2.2rem, 6.4vw, 4.6rem);
+    line-height: 1.03;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.4rem;
+    position: relative;
+    z-index: 1;
+  }
+  .dir-ar h1 em { font-style: italic; color: var(--muted); }
+  .dir-ar .subtitulo {
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: var(--muted);
+    max-width: 42ch;
+    line-height: 1.65;
+    margin: 0 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .dir-ar .cta-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 2.2rem; }
+  .dir-ar .btn {
+    display: inline-flex;
+    align-items: center;
+    background: var(--citrus);
+    color: #1d1608;
+    font-weight: 700;
+    font-size: 0.92rem;
+    padding: 0.9rem 1.7rem;
+    border-radius: 999px;
+    text-decoration: none;
+  }
+  .dir-ar .tel { font-weight: 600; font-size: 0.95rem; }
+  .dir-ar .trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.4rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    border-top: 1px solid var(--line);
+    padding-top: 1.1rem;
+  }
+
+  .dir-ar .servicos {
+    margin-top: clamp(3rem, 7vw, 5rem);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .dir-ar .servico-item { display: flex; gap: 0.9rem; }
+  .dir-ar .servico-item svg { flex: none; width: 34px; height: 34px; margin-top: 0.2rem; }
+  .dir-ar .servico-item h3 { font-family: Fraunces, serif; font-weight: 500; font-size: 1.25rem; margin: 0 0 0.4rem; }
+  .dir-ar .servico-item p { margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.55; }
+
+  @media (max-width: 760px) {
+    .dir-ar .brisa { display: none !important; }
+    .dir-ar .servicos { grid-template-columns: 1fr !important; }
+  }
+
+  /* =========================================================
+     DIREÇÃO 3 — LUZ ALGARVIA (grelha quebrada)
+     ========================================================= */
+  .dir-luz {
+    --sand: #ede1cc;
+    --sand-deep: #d9c7a3;
+    --ink: #241c15;
+    --coral: #b8402c;
+    --cream: #fbf3e7;
+    --muted: #5b4a36;
+    background: var(--sand);
+    color: var(--ink);
+  }
+  .dir-luz .mock-barra { background: #d9c7a3; }
+  .dir-luz .mock-barra span { color: #6b5a44; }
+  .dir-luz .mock-viewport {
+    font-family: "Bricolage Grotesque", sans-serif;
+    padding: clamp(1.2rem, 4vw, 2rem);
+  }
+  .dir-luz .bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: minmax(70px, auto);
+    gap: 10px;
+  }
+  .dir-luz .bloco {
+    border-radius: 10px;
+    padding: 1.3rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .dir-luz .b-headline {
+    grid-column: span 4;
+    grid-row: span 3;
+    background: var(--ink);
+    color: var(--sand);
+  }
+  .dir-luz .b-headline .eyebrow {
+    font-family: Lora, serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--sand-deep);
+    margin-bottom: 0.8rem;
+  }
+  .dir-luz h1 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+    line-height: 1.08;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .dir-luz .b-local {
+    grid-column: span 2;
+    grid-row: span 1;
+    background: var(--coral);
+    color: var(--cream);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+  }
+  .dir-luz .b-sub {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: var(--sand-deep);
+    color: var(--ink);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .dir-luz .b-cta {
+    grid-column: span 3;
+    grid-row: span 1;
+    background: var(--cream);
+    border: 1.5px solid var(--ink);
+  }
+  .dir-luz .b-cta a {
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .dir-luz .b-tel {
+    grid-column: span 3;
+    grid-row: span 1;
+    background: var(--sand);
+    border: 1.5px solid var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85rem;
+  }
+  .dir-luz .b-trust {
+    grid-column: span 6;
+    grid-row: span 1;
+    background: transparent;
+    border: none;
+    padding: 0.6rem 0.2rem 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+  }
+  .dir-luz .b-trust b { color: var(--ink); font-weight: 600; }
+
+  .dir-luz .servicos {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+  }
+  .dir-luz .b-serv {
+    grid-column: span 3;
+    grid-row: span 2;
+    background: var(--cream);
+  }
+  .dir-luz .b-serv:first-child { background: var(--sand-deep); }
+  .dir-luz .b-serv .idx {
+    font-family: Lora, serif;
+    font-style: italic;
+    color: var(--coral);
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+  .dir-luz .b-serv h3 { margin: 0 0 0.4rem; font-size: 1.15rem; font-weight: 700; }
+  .dir-luz .b-serv p { margin: 0; font-size: 0.85rem; color: var(--muted); line-height: 1.5; }
+
+  @media (max-width: 760px) {
+    .dir-luz .bento, .dir-luz .servicos { grid-template-columns: 1fr !important; }
+    .dir-luz .bloco { grid-column: 1 / -1 !important; grid-row: auto !important; }
+  }
+
+  footer.fim {
+    text-align: center;
+    padding: 3rem 1rem 4rem;
+    color: var(--page-muted);
+    font-size: 0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="topo wrap">
+  <p class="etiqueta">Fábrica de sites · correção de processo</p>
+  <h1>MS Climatização — prévia de 3 direções visuais</h1>
+  <p>
+    O CLAUDE.md da fábrica pede 3 direções visuais antes de construir o site completo. Isso não tinha
+    acontecido de verdade: só a direção "Sombra e cal" foi escolhida sozinha por um agente anterior e já
+    está construída. Esta página corrige o processo, mostrando 3 direções novas, genuinamente diferentes
+    entre si e da direção já construída, com dados reais confirmados da MS Climatização (Quarteira, Loulé
+    e Faro, Algarve).
+  </p>
+  <p>
+    Nenhum dado novo do cliente foi inventado aqui, só tratamento visual. Textos, telefone e serviços
+    seguem <code>src/data/site.ts</code> e o <code>index.astro</code> já aprovados.
+  </p>
+  <nav class="nav-direcoes">
+    <a href="#dir-1">1 · Precisão Técnica</a>
+    <a href="#dir-2">2 · Ar Puro</a>
+    <a href="#dir-3">3 · Luz Algarvia</a>
+  </nav>
+
+  <div class="referencia">
+    <strong>Referência, já construída (não repetir):</strong> "Sombra e cal"
+    <span class="swatches">
+      <i class="sw" style="background:#123C44"></i>
+      <i class="sw" style="background:#F4EFE4"></i>
+      <i class="sw" style="background:#A83E22"></i>
+      <i class="sw" style="background:#CFE3DC"></i>
+    </span>
+    — parede caiada azul + terracota queimada + azulejo verde-água, Space Grotesk + Instrument Sans,
+    elemento-assinatura em grelha de lâminas horizontais (persianas/grelhas de ventilação). Já implementada
+    em <code>src/pages/index.astro</code> e <code>src/styles/global.css</code>.
+  </div>
+
+  <div class="resumo">
+    <h2>Resumo rápido das 3 direções</h2>
+    <div class="resumo-grid">
+      <div class="resumo-card">
+        <h3>1 · Precisão Técnica</h3>
+        <div class="paleta">
+          <span style="background:#14181a"></span>
+          <span style="background:#1d2225"></span>
+          <span style="background:#9fc1d1"></span>
+          <span style="background:#e8a33d"></span>
+        </div>
+        <p><b>Tipografia:</b> JetBrains Mono + Archivo</p>
+        <p><b>Herói:</b> split 2 colunas, texto + diagrama técnico linear</p>
+        <p><b>Assinatura:</b> linhas de cota e anotação (estilo desenho técnico)</p>
+      </div>
+      <div class="resumo-card">
+        <h3>2 · Ar Puro</h3>
+        <div class="paleta">
+          <span style="background:#f7f9f5;border-color:#c9c2b0"></span>
+          <span style="background:#17231d"></span>
+          <span style="background:#e7b537"></span>
+          <span style="background:#c7d6cc"></span>
+        </div>
+        <p><b>Tipografia:</b> Fraunces + Figtree</p>
+        <p><b>Herói:</b> tipografia grande, sem foto, muito espaço negativo</p>
+        <p><b>Assinatura:</b> linhas finas de "brisa" atravessando a página</p>
+      </div>
+      <div class="resumo-card">
+        <h3>3 · Luz Algarvia</h3>
+        <div class="paleta">
+          <span style="background:#ede1cc"></span>
+          <span style="background:#241c15"></span>
+          <span style="background:#b8402c"></span>
+          <span style="background:#d9c7a3"></span>
+        </div>
+        <p><b>Tipografia:</b> Bricolage Grotesque + Lora</p>
+        <p><b>Herói:</b> grelha bento quebrada (blocos de cor)</p>
+        <p><b>Assinatura:</b> luz e sombra de gelosia/lâminas em blocos sólidos</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================
+     DIREÇÃO 1 — PRECISÃO TÉCNICA
+     ========================================================= -->
+<section class="direcao" id="dir-1">
+  <div class="direcao-meta">
+    <span class="numero">DIREÇÃO 01</span>
+    <h2>Precisão Técnica</h2>
+    <p>
+      Referência conceitual: o desenho de engenharia, a folha técnica, a precisão de quem instala e
+      calibra equipamento. Fundo grafite quase preto, azul aço para anotações e âmbar de sinalização
+      para o contacto. Comunica competência técnica e acompanhamento direto do responsável, sem recorrer
+      a fotos de stock. Encaixa com uma empresa cujo diferencial real é o acompanhamento do técnico e o
+      uso de ferramentas profissionais.
+    </p>
+  </div>
+  <div class="mock-frame">
+    <div class="mock-chrome dir-tecnica">
+      <div class="mock-barra"><i></i><i></i><i></i><span>msclimatizacao.pt</span></div>
+      <div class="mock-viewport">
+        <p class="eyebrow">MS Climatização · instalação e manutenção</p>
+        <div class="hero-grid">
+          <div>
+            <h1>Conforto térmico para a casa e para o negócio</h1>
+            <p class="subtitulo">
+              Instalação e manutenção de ar condicionado no Algarve, com atendimento direto do técnico
+              responsável e orçamento pelo WhatsApp.
+            </p>
+            <div class="cta-row">
+              <a class="btn" href="#">Falar no WhatsApp</a>
+              <span class="tel">+351 936 996 145</span>
+            </div>
+            <div class="trust-row">
+              <span>Técnico responsável: <b>Dione Ademir</b></span>
+              <span>Ferramentas <b>Berner</b></span>
+              <span>Área: <b>Quarteira · Loulé · Faro</b></span>
+            </div>
+          </div>
+          <div class="diagrama">
+            <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+              <rect x="30" y="30" width="150" height="46" rx="3" fill="none" stroke="#4d6875" stroke-width="1.2"/>
+              <line x1="30" y1="20" x2="180" y2="20" stroke="#4d6875" stroke-width="1"/>
+              <line x1="30" y1="16" x2="30" y2="24" stroke="#4d6875" stroke-width="1"/>
+              <line x1="180" y1="16" x2="180" y2="24" stroke="#4d6875" stroke-width="1"/>
+              <text x="35" y="14" font-size="9">UNIDADE INTERIOR</text>
+
+              <path d="M180 53 C 210 53, 220 70, 245 70" fill="none" stroke="#9fc1d1" stroke-width="1.2" stroke-dasharray="3 3"/>
+              <rect x="245" y="120" width="40" height="70" rx="3" fill="none" stroke="#4d6875" stroke-width="1.2"/>
+              <line x1="255" y1="120" x2="255" y2="190" stroke="#4d6875" stroke-width="0.8"/>
+              <line x1="265" y1="120" x2="265" y2="190" stroke="#4d6875" stroke-width="0.8"/>
+              <line x1="275" y1="120" x2="275" y2="190" stroke="#4d6875" stroke-width="0.8"/>
+              <text x="228" y="205" font-size="9">UNID. EXTERIOR</text>
+
+              <path d="M60 76 L60 110" stroke="#9fc1d1" stroke-width="1"/>
+              <path d="M50 100 L60 110 L70 100" fill="none" stroke="#9fc1d1" stroke-width="1"/>
+              <text x="76" y="106" font-size="9">FLUXO DE AR</text>
+
+              <line x1="15" y1="30" x2="15" y2="76" stroke="#33393c" stroke-width="1"/>
+              <line x1="11" y1="30" x2="19" y2="30" stroke="#33393c" stroke-width="1"/>
+              <line x1="11" y1="76" x2="19" y2="76" stroke="#33393c" stroke-width="1"/>
+              <text x="0" y="56" font-size="8" transform="rotate(-90 6 56)">ALTURA</text>
+
+              <circle cx="45" cy="53" r="10" fill="none" stroke="#9fc1d1" stroke-width="1"/>
+              <line x1="38" y1="46" x2="52" y2="60" stroke="#9fc1d1" stroke-width="0.8"/>
+              <line x1="52" y1="46" x2="38" y2="60" stroke="#9fc1d1" stroke-width="0.8"/>
+              <text x="34" y="90" font-size="8">FILTRO</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="servicos">
+          <div class="servicos-grid">
+            <div class="spec-card">
+              <span class="idx">01 /</span>
+              <h3>Instalação de ar condicionado</h3>
+              <p>Instalação residencial ou comercial, com acompanhamento técnico do início ao fim do trabalho.</p>
+            </div>
+            <div class="spec-card">
+              <span class="idx">02 /</span>
+              <h3>Manutenção e limpeza</h3>
+              <p>Manutenção periódica que reduz falhas e problemas de qualidade do ar por falta de limpeza.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     DIREÇÃO 2 — AR PURO
+     ========================================================= -->
+<section class="direcao" id="dir-2">
+  <div class="direcao-meta">
+    <span class="numero">DIREÇÃO 02</span>
+    <h2>Ar Puro</h2>
+    <p>
+      Referência conceitual: ar limpo, respiração, o alívio de entrar num espaço bem climatizado num dia
+      quente do Algarve, sem recorrer a sol ou floco de neve genéricos. Fundo quase branco com toque de
+      verde, serifado grande e editorial para o título, muito espaço negativo. As "linhas de brisa" finas
+      substituem qualquer ícone de ventoinha. Encaixa com o lado de bem-estar e qualidade do ar que a
+      própria MS Climatização já aborda no Instagram.
+    </p>
+  </div>
+  <div class="mock-frame">
+    <div class="mock-chrome dir-ar">
+      <div class="mock-barra"><i></i><i></i><i></i><span>msclimatizacao.pt</span></div>
+      <div class="mock-viewport">
+        <svg class="brisa" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 40 C 60 20, 110 20, 190 40" fill="none" stroke="#3e5148" stroke-width="1.4" opacity="0.55"/>
+          <path d="M30 75 C 80 58, 130 58, 205 78" fill="none" stroke="#3e5148" stroke-width="1.2" opacity="0.4"/>
+          <path d="M0 112 C 55 96, 120 96, 180 116" fill="none" stroke="#3e5148" stroke-width="1.6" opacity="0.5"/>
+          <path d="M40 150 C 85 136, 125 136, 200 154" fill="none" stroke="#3e5148" stroke-width="1" opacity="0.35"/>
+          <path d="M10 186 C 60 172, 115 172, 190 190" fill="none" stroke="#3e5148" stroke-width="1.3" opacity="0.45"/>
+        </svg>
+        <div class="hero-texto">
+          <p class="eyebrow">MS Climatização · Algarve</p>
+          <h1>Conforto térmico<br>para a casa <em>e</em><br>para o negócio</h1>
+          <p class="subtitulo">
+            Instalação e manutenção de ar condicionado no Algarve, com atendimento direto do técnico
+            responsável e orçamento pelo WhatsApp.
+          </p>
+          <div class="cta-row">
+            <a class="btn" href="#">Pedir orçamento no WhatsApp</a>
+            <span class="tel">+351 936 996 145</span>
+          </div>
+          <div class="trust-row">
+            <span>Técnico responsável: Dione Ademir</span>
+            <span>Ferramentas profissionais Berner</span>
+            <span>Quarteira · Loulé · Faro</span>
+          </div>
+        </div>
+
+        <div class="servicos">
+          <div class="servico-item">
+            <svg viewBox="0 0 40 40"><path d="M2 14 C 14 8, 26 8, 38 14" fill="none" stroke="#3e5148" stroke-width="2"/><path d="M2 22 C 14 16, 26 16, 38 22" fill="none" stroke="#3e5148" stroke-width="2" opacity="0.6"/><path d="M2 30 C 14 24, 26 24, 38 30" fill="none" stroke="#3e5148" stroke-width="2" opacity="0.35"/></svg>
+            <div>
+              <h3>Instalação de ar condicionado</h3>
+              <p>Instalação residencial ou comercial, com acompanhamento direto do técnico responsável.</p>
+            </div>
+          </div>
+          <div class="servico-item">
+            <svg viewBox="0 0 40 40"><path d="M2 14 C 14 8, 26 8, 38 14" fill="none" stroke="#3e5148" stroke-width="2"/><path d="M2 22 C 14 16, 26 16, 38 22" fill="none" stroke="#3e5148" stroke-width="2" opacity="0.6"/><path d="M2 30 C 14 24, 26 24, 38 30" fill="none" stroke="#3e5148" stroke-width="2" opacity="0.35"/></svg>
+            <div>
+              <h3>Manutenção e limpeza</h3>
+              <p>Manutenção periódica, reduzindo falhas e problemas de qualidade do ar do aparelho.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     DIREÇÃO 3 — LUZ ALGARVIA
+     ========================================================= -->
+<section class="direcao" id="dir-3">
+  <div class="direcao-meta">
+    <span class="numero">DIREÇÃO 03</span>
+    <h2>Luz Algarvia</h2>
+    <p>
+      Referência conceitual: a luz forte do Algarve recortada por gelosias, platibandas e lâminas
+      arquitetónicas típicas da região, o contraste entre sombra funda e sol direto. Grelha editorial
+      quebrada, em blocos sólidos de cor (nunca gradiente), como se fosse a sombra projetada por uma
+      grelha no chão. Tom mais quente e gráfico que as outras duas direções, sem repetir o azulejo
+      verde-água já usado em "Sombra e cal".
+    </p>
+  </div>
+  <div class="mock-frame">
+    <div class="mock-chrome dir-luz">
+      <div class="mock-barra"><i></i><i></i><i></i><span>msclimatizacao.pt</span></div>
+      <div class="mock-viewport">
+        <div class="bento">
+          <div class="bloco b-headline">
+            <span class="eyebrow">MS Climatização</span>
+            <h1>Conforto térmico para a casa e para o negócio</h1>
+          </div>
+          <div class="bloco b-local">QUARTEIRA · LOULÉ · FARO</div>
+          <div class="bloco b-sub">
+            Instalação e manutenção de ar condicionado no Algarve, com atendimento direto do técnico
+            responsável.
+          </div>
+          <div class="bloco b-cta"><a href="#">Falar no WhatsApp →</a></div>
+          <div class="bloco b-tel">+351 936 996 145</div>
+          <div class="bloco b-trust">
+            <span>Técnico responsável: <b>Dione Ademir</b></span>
+            <span>Ferramentas <b>Berner</b></span>
+          </div>
+        </div>
+
+        <div class="servicos">
+          <div class="bloco b-serv">
+            <span class="idx">Serviço 01</span>
+            <h3>Instalação de ar condicionado</h3>
+            <p>Instalação residencial ou comercial, com acompanhamento técnico direto.</p>
+          </div>
+          <div class="bloco b-serv">
+            <span class="idx">Serviço 02</span>
+            <h3>Manutenção e limpeza</h3>
+            <p>Manutenção periódica que reduz falhas e problemas de qualidade do ar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="fim">
+  Prévia interna de comparação, gerada para decisão de direção visual. Fontes ligadas via Google Fonts
+  só para esta prévia; o site final segue a regra de fontes auto-hospedadas do CLAUDE.md.
+</footer>
+
+</body>
+</html>

@@ -12,10 +12,14 @@
 //    legais e utilitarias) que nao aparece em nenhum lugar de src/data/site.ts.
 //    A ideia e forcar todo numero exibido (estatistica, preco, ano) a vir da
 //    fonte de dados unica, nunca escrito solto num componente. SEMPRE ativo.
-// 4. "[PREENCHER" presente em qualquer arquivo de conteudo, mas SO quando a
-//    variavel de ambiente DEPLOY_ALVO=producao estiver definida. Sem essa
-//    variavel (build local, de demonstracao ou de revisao com o cliente),
-//    placeholders pendentes sao permitidos e so aparecem no relatorio final.
+// 4. "[PREENCHER" OU uma mascara de dado pessoal/legal ainda pendente
+//    ("XXXXXXXXX", NIF de Portugal com 9 digitos, ou "XXXX-XXX", codigo
+//    postal de Portugal) presente em qualquer arquivo de conteudo, mas SO
+//    falha o build quando a variavel de ambiente DEPLOY_ALVO=producao
+//    estiver definida. Sem essa variavel (build local, de demonstracao ou de
+//    revisao com o cliente), placeholders pendentes sao permitidos e so
+//    aparecem no relatorio final. Ver PENDENCIAS.md (clientes/*/PENDENCIAS.md)
+//    para o que cada marcador representa.
 //
 // Paginas excluidas da checagem 3 porque citam numeros legitimos que nao vem
 // de site.ts (lei, ano de norma, codigo de status HTTP):
@@ -193,16 +197,35 @@ function validarNumerosSoltos(caminho, conteudo, siteTsTexto) {
 }
 
 // ---------------------------------------------------------------------------
-// 4. [PREENCHER pendente, so falha em build de producao
+// 4. [PREENCHER ou mascara de dado pessoal/legal pendente, so falha em build
+//    de producao
 // ---------------------------------------------------------------------------
 
+// Mascaras usadas para dado pessoal/legal com formato nacional conhecido,
+// ainda sem o valor real do cliente (ver PENDENCIAS.md). Nao usar \b (nao
+// cobre bem limite antes/depois de "X"): confere que nao ha mais um "X"
+// colado antes ou depois, para nao casar por engano dentro de uma sequencia
+// maior de X.
+const REGEX_NIF_PT_PENDENTE = /(?<!X)XXXXXXXXX(?!X)/; // NIF de Portugal: 9 digitos seguidos
+const REGEX_CODIGO_POSTAL_PT_PENDENTE = /(?<!X)XXXX-XXX(?!X)/; // codigo postal de Portugal: 4 digitos, traco, 3 digitos
+
 function validarPreencherPendente(caminho, conteudo) {
-  if (!conteudo.includes('[PREENCHER')) return;
+  const temPreencher = conteudo.includes('[PREENCHER');
+  const temNifPendente = REGEX_NIF_PT_PENDENTE.test(conteudo);
+  const temCodigoPostalPendente = REGEX_CODIGO_POSTAL_PT_PENDENTE.test(conteudo);
+  if (!temPreencher && !temNifPendente && !temCodigoPostalPendente) return;
+
+  const marcadores = [];
+  if (temPreencher) marcadores.push('"[PREENCHER"');
+  if (temNifPendente) marcadores.push('máscara de NIF pendente ("XXXXXXXXX")');
+  if (temCodigoPostalPendente) marcadores.push('máscara de código postal pendente ("XXXX-XXX")');
+
   const relativo = relative(raizBase, caminho);
+  const descricaoMarcadores = marcadores.join(' e ');
   if (isProducao) {
-    erros.push(`${relativo}: contém "[PREENCHER" e DEPLOY_ALVO=producao está definido. Preencha antes de publicar.`);
+    erros.push(`${relativo}: contém ${descricaoMarcadores} e DEPLOY_ALVO=producao está definido. Preencha antes de publicar.`);
   } else {
-    avisos.push(`${relativo}: contém "[PREENCHER" (pendência a resolver antes do deploy de produção).`);
+    avisos.push(`${relativo}: contém ${descricaoMarcadores} (pendência a resolver antes do deploy de produção).`);
   }
 }
 

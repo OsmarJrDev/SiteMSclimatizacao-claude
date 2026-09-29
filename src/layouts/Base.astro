@@ -34,9 +34,13 @@ const lang = site.mercado === 'PT' ? 'pt-PT' : 'pt-BR';
     <Seo title={title} description={description} />
     <JsonLd />
 
-    <!-- Fonts API do Astro: arquivos auto-hospedados, gerados no build. -->
-    <Font cssVariable="--font-titulo" preload={[{ weight: 600 }]} />
-    <Font cssVariable="--font-corpo" preload={[{ weight: 400 }]} />
+    <!--
+      Fonts API do Astro: arquivos auto-hospedados, gerados no build.
+      --font-titulo é um alias CSS para --font-corpo (mesma família Archivo,
+      ver src/styles/global.css), por isso só duas fontes são carregadas aqui.
+    -->
+    <Font cssVariable="--font-corpo" preload={[{ weight: 400 }, { weight: 800 }]} />
+    <Font cssVariable="--font-rotulo" preload={[{ weight: 500 }]} />
   </head>
   <body class="flex min-h-screen flex-col bg-superficie font-corpo text-texto">
     {

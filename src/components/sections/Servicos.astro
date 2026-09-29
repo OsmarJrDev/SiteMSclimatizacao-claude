@@ -2,6 +2,13 @@
 // Tres variantes: "grade" (cartoes), "lista" (linhas editoriais com filete)
 // e "numerada" (acordeao 01/02/03 com resumo + "ver mais" na mesma pagina;
 // numeracao permitida aqui porque organiza conteudo real, nao e decorativa).
+// Variante "numerada" carrega o tratamento de linhas de cota/anotação da
+// direção "Precisão Técnica" (.linha-cota-h, em src/styles/global.css):
+// cada cartão ganha uma cota horizontal no topo e o índice em fonte
+// monoespaçada, como um rótulo de desenho técnico. O âmbar (--color-acento)
+// não aparece aqui: é reservado ao botão de WhatsApp (ver nota em
+// src/styles/global.css), então índice, ícone "+" e preço usam o azul aço
+// (--color-destaque).
 // Adaptação própria deste cliente (não existe no _base): quando
 // servico.confirmado === false, mostra "(a confirmar)" ao lado do nome,
 // porque a lista vem de indício visual nos posts do Instagram/Facebook,
@@ -32,7 +39,7 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
     variante === 'grade' ? (
       <ul class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {site.servicos.map((servico) => (
-          <li class="rounded-[var(--radius-cartao)] border-t-4 border-acento bg-white/60 p-6">
+          <li class="rounded-[var(--radius-cartao)] border-t-4 border-destaque bg-painel p-6">
             <h3 class="font-titulo text-xl font-semibold text-base">
               {servico.nome}
               {servico.confirmado === false && (
@@ -40,8 +47,18 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
               )}
             </h3>
             <p class="mt-2 text-sm text-texto/70">{servico.descricao}</p>
+            {servico.passos && servico.passos.length > 0 && (
+              <ul class="mt-3 space-y-1 font-rotulo text-xs text-texto/70">
+                {servico.passos.map((passo) => (
+                  <li class="flex gap-2">
+                    <span class="text-destaque" aria-hidden="true">›</span>
+                    {passo}
+                  </li>
+                ))}
+              </ul>
+            )}
             {servico.precoAPartir && (
-              <p class="mt-3 text-sm font-semibold text-acento">a partir de {servico.precoAPartir}</p>
+              <p class="mt-3 text-sm font-semibold text-destaque">a partir de {servico.precoAPartir}</p>
             )}
           </li>
         ))}
@@ -58,22 +75,32 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
             </h3>
             <div>
               <p class="text-texto/70">{servico.descricao}</p>
+              {servico.passos && servico.passos.length > 0 && (
+                <ul class="mt-3 space-y-1 font-rotulo text-xs text-texto/70">
+                  {servico.passos.map((passo) => (
+                    <li class="flex gap-2">
+                      <span class="text-destaque" aria-hidden="true">›</span>
+                      {passo}
+                    </li>
+                  ))}
+                </ul>
+              )}
               {servico.precoAPartir && (
-                <p class="mt-2 text-sm font-semibold text-acento">a partir de {servico.precoAPartir}</p>
+                <p class="mt-2 text-sm font-semibold text-destaque">a partir de {servico.precoAPartir}</p>
               )}
             </div>
           </li>
         ))}
       </ul>
     ) : (
-      <div class="mt-10 divide-y divide-linha border-y border-linha">
+      <div class="mt-10 space-y-3">
         {site.servicos.map((servico, indice) => (
-          <details class="group py-6">
+          <details class="linha-cota-h group border-b border-linha pb-6 pt-7">
             <summary class="flex cursor-pointer list-none items-start gap-5 marker:content-none">
-              <span class="font-titulo text-2xl font-semibold text-acento md:text-3xl" aria-hidden="true">
-                {String(indice + 1).padStart(2, '0')}
+              <span class="font-rotulo text-sm font-medium text-destaque md:text-base" aria-hidden="true">
+                {String(indice + 1).padStart(2, '0')} /
               </span>
-              <span class="flex flex-1 items-center justify-between gap-4 pt-1">
+              <span class="flex flex-1 items-center justify-between gap-4">
                 <span class="font-titulo text-xl font-semibold text-base">
                   {servico.nome}
                   {servico.confirmado === false && (
@@ -82,16 +109,26 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
                 </span>
                 <span
                   aria-hidden="true"
-                  class="shrink-0 text-acento transition-transform group-open:rotate-45 motion-reduce:transition-none"
+                  class="shrink-0 font-rotulo text-destaque transition-transform group-open:rotate-45 motion-reduce:transition-none"
                 >
                   +
                 </span>
               </span>
             </summary>
-            <div class="pl-[2.75rem] md:pl-[3.25rem]">
+            <div class="pl-[2.75rem] md:pl-[3.5rem]">
               <p class="mt-3 max-w-[65ch] text-texto/70">{servico.descricao}</p>
+              {servico.passos && servico.passos.length > 0 && (
+                <ul class="mt-4 max-w-[55ch] space-y-1.5 font-rotulo text-sm text-texto/70">
+                  {servico.passos.map((passo) => (
+                    <li class="flex gap-2">
+                      <span class="text-destaque" aria-hidden="true">›</span>
+                      {passo}
+                    </li>
+                  ))}
+                </ul>
+              )}
               {servico.precoAPartir && (
-                <p class="mt-2 text-sm font-semibold text-acento">a partir de {servico.precoAPartir}</p>
+                <p class="mt-2 text-sm font-semibold text-destaque">a partir de {servico.precoAPartir}</p>
               )}
             </div>
           </details>

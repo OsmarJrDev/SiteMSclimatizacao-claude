@@ -28,7 +28,7 @@ const horarioConfirmado = site.horarios.some((h) => h.abertura !== null);
   <ul class="mt-4 space-y-2 text-texto/70">
     <li>{site.nap.enderecoCurto}</li>
     <li>
-      <a class="underline decoration-linha underline-offset-4 hover:decoration-acento" href={linkTel}>
+      <a class="underline decoration-linha underline-offset-4 hover:decoration-destaque" href={linkTel}>
         {site.nap.telefone}
       </a>
     </li>
@@ -36,7 +36,7 @@ const horarioConfirmado = site.horarios.some((h) => h.abertura !== null);
       {emailPendente ? (
         site.nap.email
       ) : (
-        <a class="underline decoration-linha underline-offset-4 hover:decoration-acento" href={`mailto:${site.nap.email}`}>
+        <a class="underline decoration-linha underline-offset-4 hover:decoration-destaque" href={`mailto:${site.nap.email}`}>
           {site.nap.email}
         </a>
       )}

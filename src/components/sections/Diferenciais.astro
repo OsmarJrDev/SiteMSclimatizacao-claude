@@ -37,10 +37,10 @@ const { variante = 'linha', titulo = 'Diferenciais' } = Astro.props;
           ))}
         </ul>
         {site.numeros.length > 0 && (
-          <ul class="grid grid-cols-2 gap-6 self-start rounded-[var(--radius-cartao)] bg-base p-6 text-superficie">
+          <ul class="grid grid-cols-2 gap-6 self-start rounded-[var(--radius-cartao)] border border-linha bg-painel p-6">
             {site.numeros.map((numero) => (
               <li>
-                <p class="font-titulo text-3xl font-semibold">{numero.valor}</p>
+                <p class="font-titulo text-3xl font-semibold text-base">{numero.valor}</p>
                 <p class="mt-1 text-sm text-destaque">{numero.legenda}</p>
               </li>
             ))}

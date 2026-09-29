@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="MS Climatização">
-  <rect width="48" height="48" rx="10" fill="#123C44" />
-  <circle cx="24" cy="24" r="16" fill="#CFE3DC" />
-  <text x="24" y="32" font-family="Georgia, 'Times New Roman', serif" font-size="22" font-weight="700" fill="#123C44" text-anchor="middle">M</text>
+  <rect width="48" height="48" rx="8" fill="#14181A" />
+  <circle cx="24" cy="24" r="15" fill="none" stroke="#9FC1D1" stroke-width="1.5" />
+  <text x="24" y="31" font-family="Georgia, 'Times New Roman', serif" font-size="20" font-weight="700" fill="#ECEAE3" text-anchor="middle">M</text>
+  <circle cx="38" cy="10" r="3" fill="#E8A33D" />
 </svg>

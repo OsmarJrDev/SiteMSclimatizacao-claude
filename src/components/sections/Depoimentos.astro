@@ -23,7 +23,7 @@ const temDepoimentos = site.depoimentos.length > 0;
       {variante === 'grade' ? (
         <ul class="mt-10 grid gap-6 md:grid-cols-2">
           {site.depoimentos.map((depoimento) => (
-            <li class="rounded-[var(--radius-cartao)] border border-linha bg-white/60 p-6">
+            <li class="rounded-[var(--radius-cartao)] border border-linha bg-painel p-6">
               <p class="text-texto/70">“{depoimento.texto}”</p>
               <p class="mt-4 text-sm font-semibold text-base">
                 {depoimento.nomeCliente}

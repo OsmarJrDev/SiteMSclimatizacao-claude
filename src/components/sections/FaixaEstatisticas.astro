@@ -16,7 +16,7 @@ const itens = site.estatisticas ?? [];
 
 {
   itens.length > 0 && (
-    <section class="border-y border-linha bg-base text-superficie" aria-label={titulo ?? 'Números em destaque'}>
+    <section class="border-y border-linha bg-painel" aria-label={titulo ?? 'Números em destaque'}>
       <div class="mx-auto max-w-6xl px-6 py-14 md:py-20">
         <ul class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {itens.map((item) => {
@@ -26,12 +26,12 @@ const itens = site.estatisticas ?? [];
                 <p
                   class:list={[
                     'font-titulo font-semibold leading-tight',
-                    pendente ? 'text-lg text-destaque' : 'text-4xl text-superficie md:text-5xl',
+                    pendente ? 'text-lg text-destaque' : 'text-4xl text-base md:text-5xl',
                   ]}
                 >
                   {item.numero}
                 </p>
-                <p class="mt-2 text-sm text-superficie/70">{item.legenda}</p>
+                <p class="mt-2 text-sm text-texto/70">{item.legenda}</p>
               </li>
             );
           })}
