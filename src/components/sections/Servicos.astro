@@ -24,11 +24,11 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
 ---
 
 <section id="servicos" class="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="servicos-titulo">
-  <h2 id="servicos-titulo" class="max-w-[24ch] font-titulo text-3xl font-semibold text-base md:text-4xl">
+  <h2 id="servicos-titulo" class="max-w-[24ch] font-titulo text-4xl font-extrabold text-base md:text-5xl">
     {titulo}
   </h2>
   {temServicoNaoConfirmado && (
-    <p class="mt-3 max-w-[60ch] text-sm text-texto/70">
+    <p class="mt-3 max-w-[60ch] text-base text-texto/80">
       Lista identificada a partir das publicações da empresa nas redes sociais; a confirmar com a
       MS Climatização antes da publicação final do site.
     </p>
@@ -45,7 +45,7 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
                 <span class="ml-1 text-sm font-normal text-texto/70">(a confirmar)</span>
               )}
             </h3>
-            <p class="mt-2 text-sm text-texto/70">{servico.descricao}</p>
+            <p class="mt-2 text-base text-texto/80">{servico.descricao}</p>
             {servico.passos && servico.passos.length > 0 && (
               <ul class="mt-3 space-y-1 font-rotulo text-xs text-texto/70">
                 {servico.passos.map((passo) => (
@@ -117,7 +117,7 @@ const temServicoNaoConfirmado = site.servicos.some((s) => s.confirmado === false
             <div class="pl-[2.75rem] md:pl-[3.5rem]">
               <p class="mt-3 max-w-[65ch] text-texto/70">{servico.descricao}</p>
               {servico.passos && servico.passos.length > 0 && (
-                <ul class="mt-4 max-w-[55ch] space-y-1.5 font-rotulo text-sm text-texto/70">
+                <ul class="mt-4 max-w-[55ch] space-y-1.5 font-rotulo text-base text-texto/80">
                   {servico.passos.map((passo) => (
                     <li class="flex gap-2">
                       <span class="text-destaque" aria-hidden="true">›</span>

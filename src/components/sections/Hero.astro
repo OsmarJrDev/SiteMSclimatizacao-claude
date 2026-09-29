@@ -1,10 +1,12 @@
 ---
 // Duas variantes estruturais (nao so de cor):
 // - "editorial": foto real de fundo (banco de imagens licenciado Pexels,
-//   mãos segurando um manômetro/manifold de refrigerante, ferramentas ao
-//   lado; trocada depois de feedback de que a primeira foto (técnico curvado
-//   de longe) não comunicava a ação com clareza. Ver nota de origem/licença
-//   em PENDENCIAS.md) cobrindo a seção inteira, com .hero-foto-scrim escurecendo
+//   unidade interior de ar-condicionado split, moderna, montada na parede,
+//   grelha aberta; terceira troca depois de feedback de que as fotos
+//   anteriores (técnico de longe, depois só o manômetro em close) ainda não
+//   deixavam óbvio que o site é de ar-condicionado. Esta mostra o aparelho
+//   em si, sem ambiguidade nenhuma. Ver nota de origem/licença em
+//   PENDENCIAS.md) cobrindo a seção inteira, com .hero-foto-scrim escurecendo
 //   o lado do texto (ver src/styles/global.css) e um zoom lento (Ken Burns,
 //   neutralizado por prefers-reduced-motion). Foto é decorativa (alt="",
 //   aria-hidden), nunca apresentada como o técnico real da empresa. Substitui
@@ -38,7 +40,7 @@ const horarioDeHoje = site.horarios[new Date().getDay() === 0 ? 6 : new Date().g
         <Image
           src={fotoHero}
           alt=""
-          class="hero-foto-img h-full w-full object-cover object-[center_38%]"
+          class="hero-foto-img h-full w-full object-cover object-[center_42%]"
           widths={[640, 960, 1280, 1920, 2400]}
           sizes="100vw"
           loading="eager"

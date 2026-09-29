@@ -14,17 +14,23 @@ const areas = site.areasAtendimento ?? [];
 
 {
   areas.length > 0 && (
-    <section class="mx-auto max-w-6xl px-6 py-16 md:py-24" aria-labelledby="area-atendimento-titulo">
-      <h2 id="area-atendimento-titulo" class="font-titulo text-3xl font-semibold text-base md:text-4xl">
-        {titulo}
-      </h2>
-      <ul class="mt-8 flex flex-wrap gap-3">
-        {areas.map((area) => (
-          <li class="rounded-full border border-linha bg-painel px-4 py-2 text-sm font-semibold text-base">
-            {area}
-          </li>
-        ))}
-      </ul>
+    <section class="bg-painel" aria-labelledby="area-atendimento-titulo">
+      <div class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+        <p class="flex items-center gap-2 font-rotulo text-xs font-medium uppercase tracking-[0.1em] text-destaque">
+          <span class="h-px w-6 bg-destaque" aria-hidden="true" />
+          Onde atuamos
+        </p>
+        <h2 id="area-atendimento-titulo" class="mt-3 font-titulo text-4xl font-extrabold text-base md:text-5xl">
+          {titulo}
+        </h2>
+        <ul class="mt-8 flex flex-wrap gap-3">
+          {areas.map((area) => (
+            <li class="rounded-full border border-linha bg-superficie px-5 py-2.5 text-base font-semibold text-base shadow-[var(--shadow-cartao)]">
+              {area}
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   )
 }
